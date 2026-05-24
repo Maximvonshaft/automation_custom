@@ -1,16 +1,63 @@
 pack_id: albania_asycuda
 version: 4.0.0-example
 fields:
+  office_code:
+    label: Office Code
+    x: 80
+    y: 120
+  authorisation_reference:
+    label: Authorisation Reference
+    x: 90
+    y: 150
+  transport_mode:
+    label: Transport Mode
+    x: 100
+    y: 180
+  truck_registration:
+    label: Truck Registration
+    x: 110
+    y: 210
+  document_reference:
+    label: Document Reference
+    x: 115
+    y: 225
   invoice_number:
     label: Invoice Number
     x: 120
     y: 240
+  hs_code:
+    label: HS Code
+    x: 140
+    y: 260
+  quantity:
+    label: Quantity
+    x: 150
+    y: 280
+  statistical_quantity:
+    label: Statistical Quantity
+    x: 160
+    y: 290
   gross_weight:
     label: Gross Weight
     x: 180
     y: 300
+  net_weight:
+    label: Net Weight
+    x: 190
+    y: 320
+  invoice_value:
+    label: Invoice Value
+    x: 195
+    y: 340
   currency_code:
     label: Currency Code
     x: 200
     y: 360
-
+  origin:
+    label: Origin
+    x: 220
+    y: 380
+  description:
+    label: Description
+    x: 240
+    y: 400

@@ -1,5 +1,13 @@
 # automation_custom
 
+## Containment Warning
+
+- v4.0 is a Controlled Runtime MVP.
+- Local Agent uses `MockActionExecutor`.
+- Real Windows/ASYCUDA foreground GUI executor is not implemented in v4.0.
+- `v3.1.1 SafeBrake` remains the verified field runtime baseline.
+- Do not distribute this repository as an external operator package.
+
 # CustomsOps Autopilot v4.0 Controlled Runtime - Production Implementation Pack for Codex
 
 This repository implements the v4.0 Controlled Runtime MVP production loop from the Codex

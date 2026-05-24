@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Manifest Parse Report",
+  "type": "object",
+  "required": ["template_type", "accepted", "row_count", "errors", "warnings"],
+  "properties": {
+    "template_type": { "type": "string" },
+    "accepted": { "type": "boolean" },
+    "row_count": { "type": "integer", "minimum": 0 },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

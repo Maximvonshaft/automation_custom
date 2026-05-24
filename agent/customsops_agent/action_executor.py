@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+from agent.customsops_agent.executors.base import ActionExecutor
 from agent.customsops_agent.forbidden_actions import assert_agent_action_allowed
 
 
@@ -28,3 +29,15 @@ class MockActionExecutor:
                 }
             )
         return self.ledger
+
+
+def choose_executor(
+    *, use_real_gui: bool, foreground_window_title: str | None = None
+) -> ActionExecutor:
+    if not use_real_gui:
+        return MockActionExecutor()
+    from agent.customsops_agent.executors.windows_gui import WindowsGuiExecutor
+
+    if foreground_window_title is None:
+        raise ValueError("Foreground window title is required for real GUI execution")
+    return WindowsGuiExecutor(foreground_window_title=foreground_window_title)
