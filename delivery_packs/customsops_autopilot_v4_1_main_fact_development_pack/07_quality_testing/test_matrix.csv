@@ -1,0 +1,18 @@
+id,area,test,expected_gate
+T-001,main-fact-baseline,Confirm MockActionExecutor remains current main executor before v4.1 work,pytest
+T-002,manifest-intake,Classify Sheet1 Combine Separate Simplified workbook shapes,pytest
+T-003,manifest-intake,Reject unsupported workbook shapes with structured parse report,pytest
+T-004,manifest-data,Reject real customer fixture data in repository,pytest
+T-005,declaration-model,Build declaration model with source row lineage,pytest
+T-006,declaration-model,Ensure model has no GUI coordinates or country-pack rules,pytest
+T-007,job-compiler,Compile signed job from declaration model server-side,pytest
+T-008,agent-boundary,Agent cannot compile executable actions from Excel locally,pytest
+T-009,gui-executor,Real GUI executor fails closed on non-Windows platforms,pytest
+T-010,gui-executor,GUI adapter requires signed-plan validation first,pytest
+T-011,gui-executor,ASYCUDA foreground guard blocks unconfirmed windows,pytest
+T-012,forbidden-actions,Submit Register Payment tax_finalize remain forbidden,pytest
+T-013,safebrake,SafeBrakeStore mode preserves mandatory blank-field behavior,pytest
+T-014,evidence,Evidence bundle remains watermarked and hash-manifested,pytest
+T-015,pack-isolation,Agent/package excludes pack directories and country-pack rule content,pytest
+T-016,security,Bandit scan passes for agent control_plane shared,bandit
+

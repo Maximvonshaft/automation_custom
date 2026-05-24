@@ -1,0 +1,5 @@
+Evidence Area,Main File,Fact,Required v4.1 Action
+Controlled runtime scope,README.md,v4.0 is MVP and not real GUI executor,Keep boundary and implement v4.1 separately
+Mock executor,agent/customsops_agent/action_executor.py,MockActionExecutor returns mocked ledger,Add RealGuiExecutor adapter behind validation
+Signed validation,agent/customsops_agent/signed_plan.py,Signature/tenant/machine/mode/expiry/action validation exists,Preserve ahead of execution
+Job compilation,control_plane/app/services/job_compiler.py,Server compiles click_paste and safeBrake store steps,Extend with declaration_model input

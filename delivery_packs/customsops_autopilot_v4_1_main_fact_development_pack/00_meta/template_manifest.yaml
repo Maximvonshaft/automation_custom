@@ -1,0 +1,13 @@
+pack_name: customsops_autopilot_v4_1_dragdrop_gui_executor_development_pack
+version: 1.0.0
+generated_at: 2026-05-24T15:39:09.877720+00:00
+source_template: SSS_Ultimate_Production_Implementation_Pack_v3
+repo: Maximvonshaft/automation_custom
+base_branch: main
+target_branch: codex/v4.1-real-gui-agent-integration
+primary_goal: Drag-and-drop Excel manifest intake plus real Windows ASYCUDA GUI executor integration under v4 controlled runtime.
+non_goals:
+  - Submit/Register/Payment/tax-finalizing automation
+  - Local plaintext country pack distribution
+  - Local Excel-to-executable-plan compilation inside agent
+  - Committing real customer data

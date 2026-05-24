@@ -1,0 +1,20 @@
+{
+  "source_file_hash": "sha256:example",
+  "template_status": "accepted_with_warnings",
+  "sheets": [
+    {
+      "name": "Combine",
+      "status": "accepted",
+      "rows": 2
+    },
+    {
+      "name": "Separate",
+      "status": "accepted",
+      "rows": 1
+    }
+  ],
+  "warnings": [
+    "Simplified parser is P1."
+  ],
+  "errors": []
+}

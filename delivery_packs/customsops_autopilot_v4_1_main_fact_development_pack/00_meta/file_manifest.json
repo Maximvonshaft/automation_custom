@@ -1,0 +1,240 @@
+{
+  "files": [
+    {
+      "path": ".github/pull_request_template.md",
+      "bytes": 411
+    },
+    {
+      "path": ".github/workflows/sss_quality_gate.yml",
+      "bytes": 768
+    },
+    {
+      "path": "000_READ_THIS_FIRST_FOR_CODEX.md",
+      "bytes": 2488
+    },
+    {
+      "path": "00_meta/assumptions_and_decisions_log.md",
+      "bytes": 1314
+    },
+    {
+      "path": "00_meta/current_main_fact_baseline.md",
+      "bytes": 1082
+    },
+    {
+      "path": "00_meta/glossary.md",
+      "bytes": 744
+    },
+    {
+      "path": "00_meta/template_manifest.yaml",
+      "bytes": 646
+    },
+    {
+      "path": "01_strategy_business_case/business_context.md",
+      "bytes": 820
+    },
+    {
+      "path": "01_strategy_business_case/north_star_outcome.md",
+      "bytes": 645
+    },
+    {
+      "path": "01_strategy_business_case/value_risk_matrix.csv",
+      "bytes": 426
+    },
+    {
+      "path": "02_problem_definition_evidence/code_evidence_matrix.csv",
+      "bytes": 605
+    },
+    {
+      "path": "02_problem_definition_evidence/current_state_findings.md",
+      "bytes": 547
+    },
+    {
+      "path": "02_problem_definition_evidence/template_excel_findings.md",
+      "bytes": 803
+    },
+    {
+      "path": "03_scope_contract/data_contract_guardrails.md",
+      "bytes": 839
+    },
+    {
+      "path": "03_scope_contract/invariants_and_constraints.md",
+      "bytes": 562
+    },
+    {
+      "path": "03_scope_contract/scope_non_scope.md",
+      "bytes": 803
+    },
+    {
+      "path": "04_solution_architecture/sequence_flows.md",
+      "bytes": 680
+    },
+    {
+      "path": "04_solution_architecture/solution_overview.md",
+      "bytes": 748
+    },
+    {
+      "path": "04_solution_architecture/state_machine_and_workflow_spec.md",
+      "bytes": 533
+    },
+    {
+      "path": "06_engineering_work_plan/engineer_prompt_codex.md",
+      "bytes": 656
+    },
+    {
+      "path": "06_engineering_work_plan/execution_brief.md",
+      "bytes": 531
+    },
+    {
+      "path": "06_engineering_work_plan/file_level_change_plan.md",
+      "bytes": 1682
+    },
+    {
+      "path": "06_engineering_work_plan/task_breakdown_wbs.md",
+      "bytes": 881
+    },
+    {
+      "path": "07_quality_testing/acceptance_criteria.md",
+      "bytes": 1008
+    },
+    {
+      "path": "07_quality_testing/regression_test_plan.md",
+      "bytes": 457
+    },
+    {
+      "path": "07_quality_testing/test_matrix.csv",
+      "bytes": 829
+    },
+    {
+      "path": "08_security_privacy_compliance/privacy_pii_dpa_checklist.md",
+      "bytes": 414
+    },
+    {
+      "path": "08_security_privacy_compliance/secrets_management_policy.md",
+      "bytes": 478
+    },
+    {
+      "path": "08_security_privacy_compliance/threat_model.md",
+      "bytes": 746
+    },
+    {
+      "path": "09_devops_ci_cd/ci_required_checks_policy.md",
+      "bytes": 305
+    },
+    {
+      "path": "09_devops_ci_cd/github_actions_quality_gate.yml",
+      "bytes": 768
+    },
+    {
+      "path": "10_observability_reliability/logging_metrics_tracing_spec.md",
+      "bytes": 681
+    },
+    {
+      "path": "11_release_change_management/release_gate.md",
+      "bytes": 586
+    },
+    {
+      "path": "11_release_change_management/rollback_plan.md",
+      "bytes": 367
+    },
+    {
+      "path": "12_operations_training/operator_sop.md",
+      "bytes": 461
+    },
+    {
+      "path": "12_operations_training/support_playbook.md",
+      "bytes": 549
+    },
+    {
+      "path": "13_incident_postmortem/incident_response_playbook.md",
+      "bytes": 530
+    },
+    {
+      "path": "14_final_handoff_reports/production_release_report.md",
+      "bytes": 552
+    },
+    {
+      "path": "14_final_handoff_reports/reviewer_verification_report.md",
+      "bytes": 402
+    },
+    {
+      "path": "15_automation_scripts/validate_pack.py",
+      "bytes": 1497
+    },
+    {
+      "path": "17_codex_prompts/CODEX_MASTER_PROMPT.md",
+      "bytes": 1134
+    },
+    {
+      "path": "17_codex_prompts/CODEX_TASK_00_MAIN_FACT_AUDIT.md",
+      "bytes": 420
+    },
+    {
+      "path": "17_codex_prompts/CODEX_TASK_01_MANIFEST_TEMPLATE_INTAKE.md",
+      "bytes": 575
+    },
+    {
+      "path": "17_codex_prompts/CODEX_TASK_02_DECLARATION_MODEL_BUILDER.md",
+      "bytes": 594
+    },
+    {
+      "path": "17_codex_prompts/CODEX_TASK_03_SIGNED_JOB_COMPILER_EXTENSION.md",
+      "bytes": 433
+    },
+    {
+      "path": "17_codex_prompts/CODEX_TASK_04_REAL_GUI_EXECUTOR_ADAPTER.md",
+      "bytes": 544
+    },
+    {
+      "path": "17_codex_prompts/CODEX_TASK_05_OPERATOR_DRAGDROP_UX.md",
+      "bytes": 506
+    },
+    {
+      "path": "17_codex_prompts/CODEX_TASK_06_EVIDENCE_AND_RELEASE_GATE.md",
+      "bytes": 342
+    },
+    {
+      "path": "18_schemas/declaration_model.schema.json",
+      "bytes": 1490
+    },
+    {
+      "path": "18_schemas/manifest_parse_report.schema.json",
+      "bytes": 698
+    },
+    {
+      "path": "18_schemas/manifest_template_contract.schema.json",
+      "bytes": 584
+    },
+    {
+      "path": "19_contracts/gui_executor_contract.md",
+      "bytes": 394
+    },
+    {
+      "path": "19_contracts/manifest_intake_contract.md",
+      "bytes": 681
+    },
+    {
+      "path": "20_samples/sample_declaration_model.json",
+      "bytes": 536
+    },
+    {
+      "path": "20_samples/sample_manifest_parse_report.json",
+      "bytes": 341
+    },
+    {
+      "path": "20_samples/sanitized_manifest_rows.csv",
+      "bytes": 392
+    },
+    {
+      "path": "21_risk_controls/external_distribution_policy.md",
+      "bytes": 397
+    },
+    {
+      "path": "21_risk_controls/safebrake_policy.md",
+      "bytes": 487
+    },
+    {
+      "path": "README.md",
+      "bytes": 1285
+    }
+  ]
+}

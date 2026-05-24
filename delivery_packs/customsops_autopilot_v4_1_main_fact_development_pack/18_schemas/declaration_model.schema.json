@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Declaration Model",
+  "type": "object",
+  "required": [
+    "source_file_hash",
+    "template_contract_version",
+    "declarations"
+  ],
+  "properties": {
+    "source_file_hash": {
+      "type": "string"
+    },
+    "template_contract_version": {
+      "type": "string"
+    },
+    "declarations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "awb",
+          "hs_code",
+          "gross_weight_kg",
+          "invoice_value",
+          "origin_country"
+        ],
+        "properties": {
+          "awb": {
+            "type": "string"
+          },
+          "hs_code": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "gross_weight_kg": {
+            "type": "number"
+          },
+          "net_weight_kg": {
+            "type": "number"
+          },
+          "invoice_value": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "origin_country": {
+            "type": "string"
+          },
+          "recipient_name": {
+            "type": "string"
+          },
+          "recipient_address": {
+            "type": "string"
+          },
+          "goods_description": {
+            "type": "string"
+          },
+          "customs_description": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+# State Machine and Workflow Spec
+
+## Manifest intake states
+
+```text
+FILE_SELECTED
+→ HASHED
+→ TEMPLATE_CLASSIFIED
+→ PARSE_REPORT_CREATED
+→ DECLARATION_MODEL_BUILT
+→ JOB_PLAN_COMPILED
+→ SIGNED
+→ READY_FOR_AGENT
+```
+
+## Agent execution states
+
+```text
+JOB_LOADED
+→ SIGNATURE_VALIDATED
+→ MACHINE_VALIDATED
+→ MODE_VALIDATED
+→ WINDOW_READY
+→ STEP_EXECUTING
+→ STEP_EVIDENCE_CAPTURED
+→ SAFEBRAKE_STORE_ATTEMPTED
+→ BUNDLE_PACKAGED
+```
+
+Failures must fail closed and produce a diagnostic bundle where possible.
