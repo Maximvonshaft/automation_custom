@@ -19,15 +19,33 @@ REQUIRED_HEADERS = {
     "description",
 }
 HEADER_ALIASES = {
-    "awb": {"awb", "air waybill", "airway bill", "document reference", "document_reference"},
-    "hs_code": {"hs", "hs code", "hs_code", "commodity code", "tariff code"},
+    "awb": {
+        "awb",
+        "air waybill",
+        "airway bill",
+        "document reference",
+        "document_reference",
+        "kodi",
+    },
+    "hs_code": {"hs", "hs code", "hs_code", "commodity code", "tariff code", "tax hs code"},
     "quantity": {"quantity", "qty", "packages", "pieces"},
     "statistical_quantity": {"statistical quantity", "statistical_quantity", "stat qty"},
-    "gross_weight": {"gross weight", "gross_weight", "weight", "gw"},
+    "gross_weight": {"gross weight", "gross_weight", "weight", "total weight", "gw"},
     "net_weight": {"net weight", "net_weight", "nw"},
-    "invoice_value": {"invoice value", "invoice_value", "value", "customs value"},
+    "invoice_value": {
+        "invoice value",
+        "invoice_value",
+        "value",
+        "customs value",
+        "consolidated value",
+    },
     "origin": {"origin", "country of origin", "origin country"},
-    "description": {"description", "goods description", "item description"},
+    "description": {
+        "description",
+        "goods description",
+        "item description",
+        "declaration description",
+    },
 }
 
 

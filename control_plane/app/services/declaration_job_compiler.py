@@ -48,6 +48,10 @@ class DeclarationJobCompiler:
     ) -> dict[str, Any]:
         if not declaration_model.get("items"):
             raise ValueError("Declaration model contains no items")
+        if len(declaration_model["items"]) > 1:
+            raise NotImplementedError(
+                "Multi-item declaration compilation is out of scope for PR #3"
+            )
         values = declaration_values(declaration_model)
         if mode == "safeBrakeStore":
             values.pop("currency_code", None)

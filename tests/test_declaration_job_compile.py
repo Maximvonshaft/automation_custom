@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
+
 from control_plane.app.services.declaration_job_compiler import DeclarationJobCompiler
 from control_plane.app.services.pack_loader import CountryPackLoader
 
@@ -120,3 +122,35 @@ def test_fill_only_includes_server_side_currency_when_configured():
         declaration_model=declaration_model,
     )
     assert "currency_code" in [step.get("field_key") for step in plan["steps"]]
+
+
+def test_multi_item_declaration_compile_is_out_of_scope_for_pr3():
+    pack = CountryPackLoader(Path("control_plane/packs")).load_pack("albania_asycuda")
+    item = {
+        "source_row": 1,
+        "awb": "SANITIZED-AWB-001",
+        "document_reference": "SANITIZED-AWB-001",
+        "hs_code": "610910",
+        "quantity": 2,
+        "statistical_quantity": 2,
+        "gross_weight": 4.5,
+        "net_weight": 4.0,
+        "invoice_value": 120,
+        "origin": "AL",
+        "description": "sanitized cotton shirts",
+    }
+    declaration_model = {
+        "declaration_id": "decl_batch_out_of_scope",
+        "template_type": "Combine",
+        "items": [item, {**item, "source_row": 2, "awb": "SANITIZED-AWB-002"}],
+        "source": {"manifest_sha256": "0" * 64, "filename": "sanitized.xlsx"},
+    }
+
+    with pytest.raises(NotImplementedError, match="Multi-item declaration compilation"):
+        DeclarationJobCompiler().compile_declaration_job(
+            tenant_id="tenant_demo",
+            machine_id="machine_demo",
+            pack=pack,
+            mode="safeBrakeStore",
+            declaration_model=declaration_model,
+        )

@@ -108,3 +108,43 @@ def test_parses_sanitized_xlsx_bytes_input(tmp_path):
     assert report["accepted"] is True
     assert manifest.template_type == "Separate"
     assert manifest.rows[0]["invoice_value"] == 80.0
+
+
+def test_albania_frontline_aliases_are_supported(tmp_path):
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.title = "Combine"
+    sheet.append(
+        [
+            "Kodi",
+            "tax HS code",
+            "Quantity",
+            "total weight",
+            "consolidated value",
+            "country of origin",
+            "declaration description",
+        ]
+    )
+    sheet.append(
+        [
+            "SANITIZED-KODI-001",
+            "610910",
+            2,
+            4.5,
+            120.0,
+            "AL",
+            "sanitized declaration",
+        ]
+    )
+    path = tmp_path / "sanitized_alias_manifest.xlsx"
+    workbook.save(path)
+
+    manifest, report = parse_manifest_path(path)
+
+    assert report["accepted"] is True
+    assert manifest.rows[0]["awb"] == "SANITIZED-KODI-001"
+    assert manifest.rows[0]["hs_code"] == "610910"
+    assert manifest.rows[0]["gross_weight"] == 4.5
+    assert manifest.rows[0]["invoice_value"] == 120.0
+    assert manifest.rows[0]["origin"] == "AL"
+    assert manifest.rows[0]["description"] == "sanitized declaration"
