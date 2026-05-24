@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Manifest Template Contract",
+  "type": "object",
+  "required": ["template_type", "sheets", "required_headers"],
+  "properties": {
+    "template_type": {
+      "type": "string",
+      "enum": ["Sheet1", "Combine", "Simplified", "Separate"]
+    },
+    "sheets": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "required_headers": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

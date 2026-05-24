@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CustomsOps Declaration Model",
+  "type": "object",
+  "required": ["declaration_id", "template_type", "items", "source"],
+  "properties": {
+    "declaration_id": { "type": "string" },
+    "template_type": {
+      "type": "string",
+      "enum": ["Sheet1", "Combine", "Simplified", "Separate"]
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_row", "awb", "hs_code", "quantity", "weight", "value", "origin", "description"],
+        "properties": {
+          "source_row": { "type": "integer", "minimum": 1 },
+          "awb": { "type": "string" },
+          "hs_code": { "type": "string" },
+          "quantity": { "type": "number" },
+          "weight": { "type": "number" },
+          "value": { "type": "number" },
+          "origin": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": ["manifest_sha256"],
+      "properties": {
+        "manifest_sha256": { "type": "string" },
+        "filename": { "type": "string" }
+      }
+    }
+  }
+}
