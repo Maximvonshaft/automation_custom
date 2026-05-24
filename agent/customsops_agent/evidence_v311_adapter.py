@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
 import zipfile
 from pathlib import Path
 
@@ -20,6 +21,7 @@ def write_v311_review_bundle(
     declaration_model: dict,
     ledger_entries: list[dict],
     watermark: str,
+    screenshot_paths: list[Path] | None = None,
 ) -> Path:
     root.mkdir(parents=True, exist_ok=True)
     screenshots_dir = root / "screenshots"
@@ -53,8 +55,16 @@ def write_v311_review_bundle(
     signed_plan_path = root / "signed_job_plan.json"
     signed_plan_path.write_text(json.dumps(job_plan, indent=2, sort_keys=True), encoding="utf-8")
 
-    screenshot_path = screenshots_dir / "screenshot_001.txt"
-    write_watermarked_text_artifact(screenshot_path, "v3.1.1-compatible screenshot", watermark)
+    screenshot_artifacts: list[Path] = []
+    if screenshot_paths:
+        for index, source in enumerate(screenshot_paths, start=1):
+            target = screenshots_dir / f"screenshot_{index:03d}{source.suffix.lower() or '.png'}"
+            shutil.copy2(source, target)
+            screenshot_artifacts.append(target)
+    else:
+        screenshot_path = screenshots_dir / "screenshot_001.txt"
+        write_watermarked_text_artifact(screenshot_path, "v3.1.1-compatible screenshot", watermark)
+        screenshot_artifacts.append(screenshot_path)
 
     artifacts = [
         ledger_path,
@@ -62,7 +72,7 @@ def write_v311_review_bundle(
         parse_report_path,
         declaration_path,
         signed_plan_path,
-        screenshot_path,
+        *screenshot_artifacts,
     ]
     metadata_path = root / "watermark_metadata.json"
     metadata = {

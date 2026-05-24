@@ -13,14 +13,17 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["source_row", "awb", "hs_code", "quantity", "weight", "value", "origin", "description"],
+        "required": ["source_row", "awb", "document_reference", "hs_code", "quantity", "statistical_quantity", "gross_weight", "net_weight", "invoice_value", "origin", "description"],
         "properties": {
           "source_row": { "type": "integer", "minimum": 1 },
           "awb": { "type": "string" },
+          "document_reference": { "type": "string" },
           "hs_code": { "type": "string" },
           "quantity": { "type": "number" },
-          "weight": { "type": "number" },
-          "value": { "type": "number" },
+          "statistical_quantity": { "type": "number" },
+          "gross_weight": { "type": "number" },
+          "net_weight": { "type": "number" },
+          "invoice_value": { "type": "number" },
           "origin": { "type": "string" },
           "description": { "type": "string" }
         }

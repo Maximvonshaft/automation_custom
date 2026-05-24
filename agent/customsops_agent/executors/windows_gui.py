@@ -2,20 +2,63 @@ from __future__ import annotations
 
 import platform
 from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Protocol
 
 from agent.customsops_agent.forbidden_actions import assert_agent_action_allowed
 from agent.customsops_agent.window_foreground import assert_asycuda_foreground_window
 
 
+class GuiBackend(Protocol):
+    def click(self, x: int, y: int) -> None: ...
+
+    def paste(self, value: str) -> None: ...
+
+    def hotkey(self, keys: list[str]) -> None: ...
+
+    def screenshot(self, path: Path) -> Path: ...
+
+
+class PyAutoGuiBackend:
+    def click(self, x: int, y: int) -> None:
+        import pyautogui
+
+        pyautogui.click(x=x, y=y)
+
+    def paste(self, value: str) -> None:
+        import pyautogui
+        import pyperclip
+
+        pyperclip.copy(value)
+        pyautogui.hotkey("ctrl", "v")
+
+    def hotkey(self, keys: list[str]) -> None:
+        import pyautogui
+
+        pyautogui.hotkey(*keys)
+
+    def screenshot(self, path: Path) -> Path:
+        import pyautogui
+
+        path.parent.mkdir(parents=True, exist_ok=True)
+        image = pyautogui.screenshot()
+        image.save(path)
+        return path
+
+
 @dataclass
 class WindowsGuiExecutor:
     foreground_window_title: str
+    backend: GuiBackend | None = None
+    platform_name: str = field(default_factory=platform.system)
     ledger: list[dict] = field(default_factory=list)
 
     def __post_init__(self) -> None:
-        if platform.system() != "Windows":
+        if self.platform_name != "Windows":
             raise RuntimeError("Real GUI execution is Windows-only")
         assert_asycuda_foreground_window(self.foreground_window_title)
+        if self.backend is None:
+            self.backend = PyAutoGuiBackend()
 
     def execute(self, steps: list[dict]) -> list[dict]:
         for step in steps:
@@ -39,20 +82,27 @@ class WindowsGuiExecutor:
         )
 
     def execute_click(self, step: dict) -> None:
+        self.backend.click(int(step["x"]), int(step["y"]))
         self._record(step)
 
     def execute_paste(self, step: dict) -> None:
+        self.backend.paste(str(step.get("value", "")))
         self._record(step)
 
     def execute_click_paste(self, step: dict) -> None:
+        self.backend.click(int(step["x"]), int(step["y"]))
+        self.backend.paste(str(step.get("value", "")))
         self._record(step)
 
     def execute_hotkey(self, step: dict) -> None:
+        self.backend.hotkey([str(key) for key in step.get("keys", [])])
         self._record(step)
 
     def execute_screenshot(self, step: dict) -> None:
+        path = Path(str(step.get("path", "evidence/screenshots/screenshot.png")))
+        self.backend.screenshot(path)
         self._record(step)
 
     def execute_store_line_safebrake(self, step: dict) -> None:
+        self.backend.click(int(step["x"]), int(step["y"]))
         self._record(step, status="safebrake_store_attempted")
-

@@ -31,16 +31,36 @@ def build_declaration_model(
     items: list[dict[str, Any]] = []
     for index, row in enumerate(manifest.rows, start=1):
         normalized = {str(key).strip().lower(): value for key, value in row.items()}
+        gross_weight = _required_number(normalized, "gross_weight")
+        net_weight = normalized.get("net_weight")
+        statistical_quantity = normalized.get("statistical_quantity")
         items.append(
             {
                 "source_row": index,
                 "awb": _required_text(normalized, "awb"),
+                "document_reference": _required_text(normalized, "awb"),
                 "hs_code": _required_text(normalized, "hs_code"),
                 "quantity": _required_number(normalized, "quantity"),
-                "weight": _required_number(normalized, "weight"),
-                "value": _required_number(normalized, "value"),
+                "statistical_quantity": (
+                    _required_number(normalized, "statistical_quantity")
+                    if statistical_quantity not in (None, "")
+                    else _required_number(normalized, "quantity")
+                ),
+                "gross_weight": gross_weight,
+                "net_weight": (
+                    _required_number(normalized, "net_weight")
+                    if net_weight not in (None, "")
+                    else gross_weight
+                ),
+                "invoice_value": _required_number(normalized, "invoice_value"),
                 "origin": _required_text(normalized, "origin"),
-                "description": _required_text(normalized, "description"),
+                "description": " ".join(
+                    [
+                        _required_text(normalized, "description"),
+                        f"HS {_required_text(normalized, 'hs_code')}",
+                        f"AWB {_required_text(normalized, 'awb')}",
+                    ]
+                ),
             }
         )
     return {
@@ -52,4 +72,3 @@ def build_declaration_model(
             "filename": filename,
         },
     }
-

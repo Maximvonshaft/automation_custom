@@ -12,8 +12,10 @@ def test_builds_declaration_model_with_lineage_and_hash():
                     "awb": "SANITIZED-AWB-001",
                     "hs_code": "610910",
                     "quantity": "2",
-                    "weight": "4.5",
-                    "value": "120.00",
+                    "statistical_quantity": "2",
+                    "gross_weight": "4.5",
+                    "net_weight": "4.0",
+                    "invoice_value": "120.00",
                     "origin": "AL",
                     "description": "sanitized cotton shirts",
                 }
@@ -27,6 +29,15 @@ def test_builds_declaration_model_with_lineage_and_hash():
     assert model["template_type"] == "Combine"
     assert model["items"][0]["source_row"] == 1
     assert model["items"][0]["awb"] == "SANITIZED-AWB-001"
+    assert model["items"][0]["document_reference"] == "SANITIZED-AWB-001"
+    assert model["items"][0]["hs_code"] == "610910"
+    assert model["items"][0]["quantity"] == 2
+    assert model["items"][0]["statistical_quantity"] == 2
+    assert model["items"][0]["gross_weight"] == 4.5
+    assert model["items"][0]["net_weight"] == 4.0
+    assert model["items"][0]["invoice_value"] == 120
+    assert model["items"][0]["origin"] == "AL"
+    assert "sanitized cotton shirts" in model["items"][0]["description"]
     assert model["source"]["manifest_sha256"]
 
 
@@ -38,8 +49,8 @@ def test_declaration_model_contains_no_gui_coordinates_or_pack_rules():
                     "awb": "SANITIZED-AWB-002",
                     "hs_code": "420221",
                     "quantity": 1,
-                    "weight": 0.8,
-                    "value": 80,
+                    "gross_weight": 0.8,
+                    "invoice_value": 80,
                     "origin": "AL",
                     "description": "sanitized bag",
                 }
@@ -51,4 +62,3 @@ def test_declaration_model_contains_no_gui_coordinates_or_pack_rules():
     assert "coordinate" not in model_text
     assert "dropdown" not in model_text
     assert "safebrake_policy" not in model_text
-
