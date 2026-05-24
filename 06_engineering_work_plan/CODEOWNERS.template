@@ -1,0 +1,18 @@
+# CODEOWNERS template
+
+# Frontend
+/webapp/ @frontend-owner
+
+# Backend
+/app/ @backend-owner
+
+# Infrastructure
+/deploy/ @devops-owner
+/.github/ @devops-owner
+
+# Security-sensitive
+/app/auth/ @security-owner
+/app/security/ @security-owner
+
+# Documentation and runbooks
+/docs/ @product-owner @engineering-owner

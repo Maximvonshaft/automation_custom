@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "License Check Response",
+  "type": "object",
+  "required": [
+    "tenant_id",
+    "machine_id",
+    "status",
+    "allowed_modes",
+    "expires_at"
+  ],
+  "properties": {
+    "tenant_id": {
+      "type": "string"
+    },
+    "machine_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "suspended",
+        "revoked",
+        "expired"
+      ]
+    },
+    "allowed_modes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

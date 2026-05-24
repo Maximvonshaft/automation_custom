@@ -1,0 +1,17 @@
+pack_name: customsops_autopilot_v4_controlled_runtime_codex_pack
+standard: SSS production implementation pack
+version: 4.0.0
+status: ready_for_codex_execution
+owner: Speedaf / CustomsOps CTO track
+risk_level: high
+change_type: architecture_security_commercialization
+primary_goal: convert internal ASYCUDA automation ZIP into controlled service
+allowed_modes:
+  - fillOnly
+  - safeBrakeStore
+blocked_modes:
+  - storePass
+  - submitArmed
+  - register
+  - payment
+  - tax_triggering_actions

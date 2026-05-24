@@ -1,0 +1,28 @@
+{
+  "job_id": "job_demo_001",
+  "tenant_id": "tenant_intex_demo",
+  "machine_id": "machine_customs_pc_01",
+  "pack_id": "albania_asycuda",
+  "pack_version": "3.1.1-safebrake",
+  "mode": "safeBrakeStore",
+  "issued_at": "2026-05-24T12:00:00Z",
+  "expires_at": "2026-05-24T18:00:00Z",
+  "steps": [
+    {
+      "step": 1,
+      "field_key": "zyrat_doganore",
+      "action": "click_paste",
+      "x": 100,
+      "y": 420,
+      "value": "AL111000"
+    },
+    {
+      "step": 2,
+      "field_key": "safebrake_store",
+      "action": "store_line_safebrake",
+      "x": 62,
+      "y": 151
+    }
+  ],
+  "signature": "BASE64_ED25519_SIGNATURE_PLACEHOLDER"
+}

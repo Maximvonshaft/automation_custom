@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CustomsOps Agent Action",
+  "type": "object",
+  "required": [
+    "step",
+    "action"
+  ],
+  "properties": {
+    "step": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "field_key": {
+      "type": "string"
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "click",
+        "paste",
+        "click_paste",
+        "hotkey",
+        "wait",
+        "screenshot",
+        "store_line_safebrake"
+      ]
+    },
+    "x": {
+      "type": "integer"
+    },
+    "y": {
+      "type": "integer"
+    },
+    "value": {
+      "type": "string"
+    },
+    "keys": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ms": {
+      "type": "integer"
+    },
+    "label": {
+      "type": "string"
+    }
+  },
+  "not": {
+    "properties": {
+      "action": {
+        "enum": [
+          "submit",
+          "register",
+          "payment"
+        ]
+      }
+    }
+  }
+}

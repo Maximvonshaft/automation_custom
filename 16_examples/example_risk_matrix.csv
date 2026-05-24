@@ -1,0 +1,3 @@
+Risk ID,Risk,Probability,Impact,Mitigation,Owner,Status
+RISK-001,User misunderstands critical action,Medium,High,Improve copy and confirmation,Product,Open
+RISK-002,Regression in existing route,Low,High,Run regression tests,Engineering,Open

@@ -1,0 +1,32 @@
+name: SSS Quality Gate
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  quality-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show context
+        run: |
+          echo "Repository: ${{ github.repository }}"
+          echo "PR: ${{ github.event.pull_request.number }}"
+
+      - name: Placeholder - install dependencies
+        run: |
+          echo "Replace this with project-specific install commands"
+
+      - name: Placeholder - typecheck
+        run: |
+          echo "Replace with: npm --prefix webapp run typecheck"
+
+      - name: Placeholder - tests
+        run: |
+          echo "Replace with project-specific tests"
+
+      - name: Placeholder - build
+        run: |
+          echo "Replace with project-specific build"

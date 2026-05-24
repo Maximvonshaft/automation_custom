@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CustomsOps Signed Job Plan",
+  "type": "object",
+  "required": [
+    "job_id",
+    "tenant_id",
+    "machine_id",
+    "pack_id",
+    "pack_version",
+    "mode",
+    "issued_at",
+    "expires_at",
+    "steps",
+    "signature"
+  ],
+  "properties": {
+    "job_id": {
+      "type": "string"
+    },
+    "tenant_id": {
+      "type": "string"
+    },
+    "machine_id": {
+      "type": "string"
+    },
+    "pack_id": {
+      "type": "string"
+    },
+    "pack_version": {
+      "type": "string"
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "fillOnly",
+        "safeBrakeStore"
+      ]
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "$ref": "action.schema.json"
+      }
+    },
+    "signature": {
+      "type": "string",
+      "description": "Ed25519 signature over canonical job payload without signature"
+    }
+  }
+}

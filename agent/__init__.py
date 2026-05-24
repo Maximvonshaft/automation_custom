@@ -1,0 +1,2 @@
+"""Local Agent distribution boundary."""
+

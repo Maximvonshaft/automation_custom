@@ -1,0 +1,2 @@
+Evidence ID,Repo,Branch,File Path,Component/Function,Current Behavior,Expected Behavior,Risk,Linked Finding
+CE-001,<repo>,main,webapp/src/pages/Example.tsx,ExampleComponent,TBD,TBD,R2,F-001

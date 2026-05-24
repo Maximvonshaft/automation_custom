@@ -1,0 +1,4 @@
+Copy ID,Current Copy,Problem,Recommended Copy,Language,Page/Component,Priority,Status
+COPY-001,Create Ticket,System-oriented wording,New customer issue,EN,Tickets primary CTA,P1,Draft
+COPY-002,No data,No next action,No records yet. Start by creating a customer issue.,EN,Empty state,P1,Draft
+COPY-003,Unauthorized,Technical/security wording,You do not have permission to do this action.,EN,Global error,P1,Draft

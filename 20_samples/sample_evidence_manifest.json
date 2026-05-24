@@ -1,0 +1,18 @@
+{
+  "tenant_id": "tenant_intex_demo",
+  "machine_id": "machine_customs_pc_01",
+  "job_id": "job_demo_001",
+  "run_id": "run_demo_001",
+  "pack_id": "albania_asycuda",
+  "pack_version": "3.1.1-safebrake",
+  "mode": "safeBrakeStore",
+  "agent_version": "4.0.0",
+  "files": [
+    "ledger.jsonl",
+    "run_context.json",
+    "screenshots/step_0001.png"
+  ],
+  "hashes": {
+    "ledger.jsonl": "sha256:placeholder"
+  }
+}

@@ -1,0 +1,9 @@
+Variable,Environment,Required,Description
+DATABASE_URL,server,yes,Control Plane database
+ED25519_PRIVATE_KEY_PATH,server,yes,Private signing key path
+ED25519_PUBLIC_KEY_PATH,server,yes,Public key path for verification/testing
+EVIDENCE_STORAGE_PATH,server,yes,Evidence bundle storage path
+AGENT_PUBLIC_KEY_PATH,agent,yes,Public key embedded or installed with Agent
+CONTROL_PLANE_URL,agent,yes,API base URL
+AGENT_MODE,agent,yes,online/offline/mock
+OFFLINE_LEASE_HOURS,agent,no,Max offline job lifetime

@@ -1,0 +1,7 @@
+mode: safeBrakeStore
+mandatory_blank_field: currency_code
+store_button:
+  x: 640
+  y: 720
+blocked_success_reason: Currency Code intentionally omitted for SafeBrake validation.
+

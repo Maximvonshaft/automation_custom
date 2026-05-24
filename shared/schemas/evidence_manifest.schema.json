@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evidence Manifest",
+  "type": "object",
+  "required": [
+    "tenant_id",
+    "machine_id",
+    "job_id",
+    "run_id",
+    "pack_id",
+    "pack_version",
+    "mode",
+    "agent_version",
+    "files",
+    "hashes"
+  ],
+  "properties": {
+    "tenant_id": {
+      "type": "string"
+    },
+    "machine_id": {
+      "type": "string"
+    },
+    "job_id": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "pack_id": {
+      "type": "string"
+    },
+    "pack_version": {
+      "type": "string"
+    },
+    "mode": {
+      "type": "string"
+    },
+    "agent_version": {
+      "type": "string"
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "hashes": {
+      "type": "object"
+    }
+  }
+}
