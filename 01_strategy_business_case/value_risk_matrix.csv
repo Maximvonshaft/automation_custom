@@ -1,0 +1,2 @@
+Item ID,Business Value,User Impact,Engineering Risk,Security Risk,Data Risk,Release Risk,Priority,Decision
+VR-001,High,High,Medium,Low,Low,Medium,P1,Proceed with production controls

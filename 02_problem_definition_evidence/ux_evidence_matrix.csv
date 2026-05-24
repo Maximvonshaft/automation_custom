@@ -1,0 +1,2 @@
+Evidence ID,Route/Page,User Persona,Task,Observed Issue,Screenshot/Recording Ref,Severity,Linked Finding
+UX-001,/admin/tickets,New CS agent,Create customer issue,No clear primary action,screenshots/UX-001.png,S2,F-001

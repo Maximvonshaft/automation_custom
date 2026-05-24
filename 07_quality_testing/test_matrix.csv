@@ -1,0 +1,11 @@
+Test ID,Layer,Scenario,Expected Result,Command
+T001,Agent,Unsigned job plan,Reject before execution,pytest tests/test_job_plan_signature.py
+T002,Agent,Invalid signature,Reject before execution,pytest tests/test_job_plan_signature.py
+T003,Agent,Expired job plan,Reject before execution,pytest tests/test_reject_expired_job.py
+T004,Agent,Wrong machine,Reject before execution,pytest tests/test_reject_wrong_machine.py
+T005,Agent,Forbidden Submit action,Reject and log policy violation,pytest tests/test_forbidden_actions.py
+T006,Control Plane,Compile SafeBrake job,Job includes safeBrake mode and signature,pytest tests/test_safebrake_job_compile.py
+T007,Evidence,Watermark bundle,Required IDs present,pytest tests/test_evidence_watermark.py
+T008,Security,Country pack absent from agent artifact,No packs/configs included,pytest tests/test_pack_not_in_agent.py
+T009,API,Health check,200 OK,pytest tests/test_api_health.py
+T010,License,Revoked machine,License check fails,pytest tests/test_kill_switch.py

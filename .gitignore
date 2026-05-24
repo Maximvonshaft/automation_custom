@@ -1,0 +1,13 @@
+.codex_pack_tmp/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+.coverage
+dist/
+build/
+*.egg-info/
+.venv/
+venv/
+evidence/
+local_state/
+

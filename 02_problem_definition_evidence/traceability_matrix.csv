@@ -1,0 +1,9 @@
+Requirement,Evidence,Implementation Artifact,Test
+Server-side country pack,Pack not present on local agent,control_plane/packs + compiler tests,test_pack_not_in_agent
+Signed job plan,Invalid signature rejected,agent/signed_plan.py,test_reject_unsigned_plan
+Machine binding,Wrong machine rejected,agent/license.py,test_reject_wrong_machine
+Expiry enforcement,Expired plan rejected,agent/signed_plan.py,test_reject_expired_plan
+SafeBrake default,Store success prevented by policy,pack/safebrake_policy,test_safebrake_policy
+Evidence watermark,Bundle includes tenant/job/machine IDs,agent/evidence.py,test_evidence_watermark
+Kill switch,Revoked machine cannot run,control_plane/license API,test_kill_switch
+No Submit in v4.0,Submit actions rejected,shared/action_policy,test_submit_action_blocked
