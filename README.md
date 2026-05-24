@@ -1,8 +1,12 @@
-# CustomsOps Autopilot v4.0 Controlled Runtime — Production Implementation Pack for Codex
+# automation_custom
 
-This is a filled production implementation pack derived from the SSS Ultimate Production Implementation Pack standard.
+# CustomsOps Autopilot v4.0 Controlled Runtime - Production Implementation Pack for Codex
 
-It converts the current internal ASYCUDA automation work from a copyable local ZIP into a controlled automation service with:
+This repository implements the v4.0 controlled runtime production loop from the Codex construction
+pack.
+
+It converts the current internal ASYCUDA automation work from a copyable local ZIP into a controlled
+automation service with:
 
 - HQ Control Plane
 - Local Operator Agent
@@ -24,7 +28,9 @@ The current automation contains valuable know-how:
 - SafeBrake Store validation flow
 - review bundle and evidence flow
 
-If shipped as a ZIP, it can be copied, reverse-engineered, or reused by local IT vendors and agents. This pack defines a production-grade controlled architecture where HQ owns the rules and the local endpoint only executes signed tasks.
+If shipped as a ZIP, it can be copied, reverse-engineered, or reused by local IT vendors and agents.
+This repository defines a production-grade controlled architecture where HQ owns the rules and the
+local endpoint only executes signed tasks.
 
 ## Current proven baseline
 
@@ -34,7 +40,8 @@ Evidence established in real ASYCUDA environment:
 
 - Line Transaction core fields can be filled through coordinate resolver + field-type actions.
 - Line Store button can be triggered.
-- SafeBrake can intentionally block Store success by leaving `Kodi i monedhes se fatures` / Currency empty.
+- SafeBrake can intentionally block Store success by leaving `Kodi i monedhes se fatures` /
+  Currency empty.
 - Review bundles contain screenshots and ledger evidence.
 
 ## v4.0 scope
@@ -56,6 +63,17 @@ Deliver v4.0 as:
 - No distribution of source ZIP to agents.
 - No local plaintext country pack.
 - No credential capture, cookie reading, login bypass, or backend request forgery.
+
+## Quality gate
+
+The required GitHub Actions workflow runs:
+
+```text
+python 15_automation_scripts/validate_pack.py
+ruff check .
+pytest -q
+bandit -q -r agent control_plane shared
+```
 
 ## Codex usage
 
