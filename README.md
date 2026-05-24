@@ -2,6 +2,10 @@
 
 ## Containment Warning
 
+- v4.1 in `main` is an Implementation Candidate only.
+- v4.1 is not approved for external deployment.
+- Remote GitHub Actions quality gate and Windows ASYCUDA lab smoke evidence remain required before
+  release.
 - v4.0 is a Controlled Runtime MVP.
 - Local Agent uses `MockActionExecutor`.
 - Real Windows/ASYCUDA foreground GUI executor is not implemented in v4.0.
