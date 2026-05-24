@@ -8,5 +8,6 @@ Allowed v4.0 modes:
 - `safeBrakeStore`: fill fields and invoke Store with the SafeBrake-required blank field intact.
 
 Operators must sign in to ASYCUDA themselves and confirm the foreground ASYCUDA window before any
-real executor is enabled. The Agent does not read credentials, cookies, browser history, or sessions.
-
+future real executor is enabled. This PR uses `MockActionExecutor`; it does not implement the real
+Windows/ASYCUDA foreground GUI executor. The Agent does not read credentials, cookies, browser
+history, or sessions.

@@ -1,5 +1,12 @@
 # Production Release Report
 
+## Release Scope Note
+
+v4.0 is a Controlled Runtime MVP. The Local Agent currently uses `MockActionExecutor`.
+This release does not yet implement the real Windows/ASYCUDA foreground GUI executor.
+`v3.1.1 SafeBrake` field execution remains the verified field runtime baseline until GUI executor
+integration lands.
+
 ## Release Info
 
 - Release ID:

@@ -2,8 +2,8 @@
 
 # CustomsOps Autopilot v4.0 Controlled Runtime - Production Implementation Pack for Codex
 
-This repository implements the v4.0 controlled runtime production loop from the Codex construction
-pack.
+This repository implements the v4.0 Controlled Runtime MVP production loop from the Codex
+construction pack.
 
 It converts the current internal ASYCUDA automation work from a copyable local ZIP into a controlled
 automation service with:
@@ -44,9 +44,10 @@ Evidence established in real ASYCUDA environment:
   Currency empty.
 - Review bundles contain screenshots and ledger evidence.
 
-## v4.0 scope
+## v4.0 MVP scope
 
 v4.0 is not a new ASYCUDA feature sprint. It is a control and commercialization-hardening sprint.
+This PR is a Controlled Runtime MVP.
 
 Deliver v4.0 as:
 
@@ -54,7 +55,11 @@ Deliver v4.0 as:
 2. a local Agent that executes only signed job plans;
 3. evidence collection and watermarking;
 4. license / tenant / machine / expiry enforcement;
-5. default `fillOnly` and `safeBrakeStore` modes only.
+5. default `fillOnly` and `safeBrakeStore` modes only;
+6. a Local Agent execution boundary that currently uses `MockActionExecutor`.
+
+The real Windows/ASYCUDA foreground GUI executor is not implemented in this PR. The verified
+field-runtime baseline remains `v3.1.1 SafeBrake` until GUI executor integration lands.
 
 ## Non-goals
 
@@ -63,6 +68,7 @@ Deliver v4.0 as:
 - No distribution of source ZIP to agents.
 - No local plaintext country pack.
 - No credential capture, cookie reading, login bypass, or backend request forgery.
+- No real Windows/ASYCUDA foreground GUI executor integration in this PR.
 
 ## Quality gate
 

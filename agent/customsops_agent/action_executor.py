@@ -7,6 +7,12 @@ from agent.customsops_agent.forbidden_actions import assert_agent_action_allowed
 
 @dataclass
 class MockActionExecutor:
+    """Intentional v4.0 MVP executor boundary.
+
+    Real Windows/ASYCUDA foreground GUI execution remains out of scope for this PR. The verified
+    field runtime baseline remains v3.1.1 SafeBrake until that integration lands.
+    """
+
     ledger: list[dict] = field(default_factory=list)
 
     def execute(self, steps: list[dict]) -> list[dict]:
@@ -22,4 +28,3 @@ class MockActionExecutor:
                 }
             )
         return self.ledger
-
