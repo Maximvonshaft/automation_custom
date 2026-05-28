@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CustomsOps Machine Registration Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tenant_id",
+    "machine_id",
+    "machine_fingerprint_sha256",
+    "agent_version",
+    "operator_package_version",
+    "registration_status",
+    "registered_at_utc"
+  ],
+  "properties": {
+    "tenant_id": {"type": "string", "minLength": 1},
+    "machine_id": {"type": "string", "minLength": 1},
+    "machine_fingerprint_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "agent_version": {"type": "string", "minLength": 1},
+    "operator_package_version": {"type": "string", "minLength": 1},
+    "registration_status": {
+      "type": "string",
+      "enum": ["pending", "active", "revoked", "disabled"]
+    },
+    "registered_at_utc": {"type": "string", "minLength": 1},
+    "revoked_at_utc": {"type": "string"},
+    "revocation_reason": {"type": "string"},
+    "public_key_id": {"type": "string"},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  }
+}
