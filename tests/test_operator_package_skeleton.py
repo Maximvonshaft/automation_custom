@@ -27,15 +27,18 @@ def test_windows_operator_skeleton_files_exist():
     assert missing == []
 
 
-def test_launcher_is_explicitly_fail_closed_skeleton():
+def test_launcher_is_signed_job_only_wrapper():
     launcher = _read(WINDOWS_OPERATOR / "operator_launcher.ps1")
 
-    assert "Skeleton" in launcher
-    assert "not approved for external operator distribution" in launcher
-    assert "Operator launcher skeleton is not wired for production execution" in launcher
+    assert "signed job plans only" in launcher
+    assert "agent.customsops_agent.operator_flow" in launcher
+    assert "SignedJobPlan" in launcher
+    assert "MachineRegistration" in launcher
+    assert "PublicKeyPem" in launcher
     assert "Submit/Register/Payment/tax-finalizing" in launcher
     assert "compile executable job plans from Excel" in launcher
-    assert "throw" in launcher.lower()
+    assert "declaration_job_compiler" not in launcher
+    assert "control_plane/packs" not in launcher
 
 
 def test_package_skeleton_declares_controlled_non_release_boundaries():
