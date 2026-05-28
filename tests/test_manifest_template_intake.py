@@ -148,3 +148,76 @@ def test_albania_frontline_aliases_are_supported(tmp_path):
     assert manifest.rows[0]["invoice_value"] == 120.0
     assert manifest.rows[0]["origin"] == "AL"
     assert manifest.rows[0]["description"] == "sanitized declaration"
+
+
+def test_parses_sanitized_non_merge_sheet3_two_row_headers(tmp_path):
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.title = "Sheet3"
+    sheet.append(
+        [
+            "Nr.r.",
+            "Malli/  Produkti",
+            "Kodi",
+            "Sasia",
+            "Pesha",
+            "Çmimi/$",
+            "Origjina prej nga vije ",
+            "HsCode",
+            "出现次数",
+            "合并货值",
+            "税率HS code",
+            "总重量(kg)",
+        ]
+    )
+    sheet.append(
+        [
+            "Nr.r.",
+            "Description of Goods",
+            "Kodi",
+            "Sasia",
+            "Pesha",
+            "Çmimi/$",
+            "Origjina prej nga vije ",
+            "HS Code / Tariff Code",
+            "Frequency / Count",
+            "Consolidated Value",
+            "tax HS code",
+            "Total Weight (kg)",
+        ]
+    )
+    sheet.append(
+        [
+            1,
+            "sanitized product description",
+            "SANITIZED-KODI-003",
+            3,
+            1.25,
+            90.5,
+            "CN",
+            "61091000",
+            3,
+            90.5,
+            "61091000",
+            1.25,
+        ]
+    )
+    path = tmp_path / "sanitized_non_merge_sheet3.xlsx"
+    workbook.save(path)
+
+    manifest, report = parse_manifest_path(path)
+
+    assert report["accepted"] is True
+    assert manifest.template_type == "Separate"
+    assert manifest.rows == [
+        {
+            "description": "sanitized product description",
+            "awb": "SANITIZED-KODI-003",
+            "quantity": 3,
+            "gross_weight": 1.25,
+            "invoice_value": 90.5,
+            "origin": "CN",
+            "hs_code": "61091000",
+            "statistical_quantity": 3,
+        }
+    ]
