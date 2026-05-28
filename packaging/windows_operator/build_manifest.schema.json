@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CustomsOps Windows Operator Package Build Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "package_name",
+    "package_version",
+    "source_repo",
+    "source_commit",
+    "build_timestamp_utc",
+    "release_classification",
+    "included_files",
+    "excluded_patterns",
+    "checksum_file",
+    "no_finalization_actions",
+    "country_pack_excluded",
+    "local_compilation_disabled"
+  ],
+  "properties": {
+    "package_name": {"type": "string", "const": "customsops-controlled-operator-package"},
+    "package_version": {"type": "string"},
+    "source_repo": {"type": "string"},
+    "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "build_timestamp_utc": {"type": "string"},
+    "build_host": {"type": "string"},
+    "release_classification": {
+      "type": "string",
+      "enum": [
+        "internal_skeleton_only",
+        "internal_lab_package",
+        "internal_pilot_candidate",
+        "external_pilot_candidate"
+      ]
+    },
+    "included_files": {"type": "array", "items": {"type": "string"}},
+    "excluded_patterns": {"type": "array", "items": {"type": "string"}},
+    "checksum_file": {"type": "string"},
+    "no_finalization_actions": {"type": "boolean", "const": true},
+    "country_pack_excluded": {"type": "boolean", "const": true},
+    "local_compilation_disabled": {"type": "boolean", "const": true}
+  }
+}
