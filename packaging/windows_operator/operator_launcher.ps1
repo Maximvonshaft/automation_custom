@@ -1,23 +1,53 @@
 param(
-    [string]$PackageRoot = $PSScriptRoot
+    [string]$PackageRoot = $PSScriptRoot,
+    [Parameter(Mandatory = $true)]
+    [string]$SignedJobPlan,
+    [Parameter(Mandatory = $true)]
+    [string]$MachineRegistration,
+    [Parameter(Mandatory = $true)]
+    [string]$PublicKeyPem,
+    [string]$EvidenceRoot = ".\evidence\operator",
+    [string]$ForegroundWindowTitle = "",
+    [switch]$RealGui
 )
 
 $ErrorActionPreference = "Stop"
 
-Write-Host "CustomsOps Operator Package Launcher (Skeleton)"
+Write-Host "CustomsOps Operator Package Launcher"
 Write-Host "PackageRoot: $PackageRoot"
 Write-Host ""
-Write-Host "This is a v4.2 skeleton placeholder only."
-Write-Host "It is not approved for external operator distribution."
-Write-Host "It does not run Submit/Register/Payment/tax-finalizing automation."
+Write-Host "This launcher accepts HQ-issued signed job plans only."
 Write-Host "It does not compile executable job plans from Excel."
+Write-Host "It does not run Submit/Register/Payment/tax-finalizing automation."
 Write-Host ""
 
 $manifest = Join-Path $PackageRoot "BUILD_MANIFEST.json"
 if (Test-Path $manifest) {
     Write-Host "Build manifest found: $manifest"
 } else {
-    Write-Host "Build manifest not found. This skeleton is not a packaged release."
+    Write-Host "Build manifest not found. Treating this as a non-release/dev skeleton run."
 }
 
-throw "Operator launcher skeleton is not wired for production execution. Use the signed-job runner only after v4.2 implementation approval."
+$argsList = @(
+    "-m",
+    "agent.customsops_agent.operator_flow",
+    "--signed-job-plan",
+    $SignedJobPlan,
+    "--machine-registration",
+    $MachineRegistration,
+    "--public-key-pem",
+    $PublicKeyPem,
+    "--evidence-root",
+    $EvidenceRoot
+)
+
+if ($RealGui) {
+    $argsList += "--real-gui"
+}
+
+if ($ForegroundWindowTitle) {
+    $argsList += "--foreground-window-title"
+    $argsList += $ForegroundWindowTitle
+}
+
+python @argsList
