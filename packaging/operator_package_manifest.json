@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "package_name": "customsops-controlled-operator-package",
+  "milestone": "v4.2-milestone-1-packaging-boundary-audit",
+  "status": "boundary_manifest_only_not_a_release_package",
+  "classification_rules": {
+    "operator_local_candidate": [
+      "agent/customsops_agent/config.py",
+      "agent/customsops_agent/main.py",
+      "agent/customsops_agent/signed_plan.py",
+      "agent/customsops_agent/action_executor.py",
+      "agent/customsops_agent/window_foreground.py",
+      "agent/customsops_agent/evidence_v311_adapter.py",
+      "agent/customsops_agent/executors/**",
+      "shared/signing/ed25519.py",
+      "shared/schemas/action.schema.json",
+      "shared/schemas/job_plan.schema.json",
+      "scripts/windows_lab_smoke_prepare_env.ps1",
+      "scripts/windows_lab_smoke_runner.ps1",
+      "scripts/windows_lab_smoke_collect_evidence.ps1"
+    ],
+    "server_only": [
+      "control_plane/**",
+      "control_plane/packs/**",
+      "delivery_packs/**"
+    ],
+    "test_only": [
+      "tests/**"
+    ],
+    "docs_only_internal": [
+      "docs/v4.2_controlled_operator_package_plan.md",
+      "docs/v4.2_security_boundary.md",
+      "docs/v4.2_operator_package_acceptance_criteria.md",
+      "docs/v4.2_release_packaging_checklist.md",
+      "docs/v4.2_implementation_roadmap.md",
+      "docs/v4.2_package_file_classification.md"
+    ],
+    "excluded": [
+      ".git/**",
+      ".venv/**",
+      "__pycache__/**",
+      ".pytest_cache/**",
+      ".ruff_cache/**",
+      ".bandit/**",
+      "outputs/**",
+      "lab/**",
+      "*.zip",
+      "*.xlsx",
+      "*.xls",
+      "*.xlsm",
+      "*.pem",
+      "*.key",
+      "*.p12",
+      "*.pfx",
+      "*.env",
+      "*.log"
+    ]
+  },
+  "forbidden_in_operator_package": [
+    "control_plane/packs",
+    "declaration_job_compiler.py",
+    "job_compiler.py",
+    "safebrake_policy.example.yaml",
+    "field_map.example.yaml",
+    "country pack content",
+    "signing private key",
+    "real customer data",
+    "broker authorization value",
+    "production credentials"
+  ],
+  "forbidden_actions": [
+    "submit",
+    "register",
+    "payment",
+    "tax_finalize"
+  ],
+  "allowed_modes": [
+    "fillOnly",
+    "safeBrakeStore"
+  ],
+  "notes": [
+    "This manifest is an audit boundary only and does not build an operator package.",
+    "The eventual package builder must use a strict allowlist and prove that server_only and excluded patterns are absent from output artifacts.",
+    "No source-tree distribution is approved by this manifest."
+  ]
+}
