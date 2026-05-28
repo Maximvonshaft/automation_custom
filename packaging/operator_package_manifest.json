@@ -11,10 +11,12 @@
       "agent/customsops_agent/action_executor.py",
       "agent/customsops_agent/window_foreground.py",
       "agent/customsops_agent/evidence_v311_adapter.py",
+      "agent/customsops_agent/machine_identity.py",
       "agent/customsops_agent/executors/**",
       "shared/signing/ed25519.py",
       "shared/schemas/action.schema.json",
       "shared/schemas/job_plan.schema.json",
+      "shared/schemas/machine_registration.schema.json",
       "scripts/windows_lab_smoke_prepare_env.ps1",
       "scripts/windows_lab_smoke_runner.ps1",
       "scripts/windows_lab_smoke_collect_evidence.ps1"
@@ -33,7 +35,8 @@
       "docs/v4.2_operator_package_acceptance_criteria.md",
       "docs/v4.2_release_packaging_checklist.md",
       "docs/v4.2_implementation_roadmap.md",
-      "docs/v4.2_package_file_classification.md"
+      "docs/v4.2_package_file_classification.md",
+      "docs/v4.2_machine_registration.md"
     ],
     "excluded": [
       ".git/**",
@@ -78,9 +81,16 @@
     "fillOnly",
     "safeBrakeStore"
   ],
+  "machine_registration": {
+    "local_config_path": "%USERPROFILE%/.customsops/machine_registration.json",
+    "status_values": ["pending", "active", "revoked", "disabled"],
+    "active_required_for_execution": true,
+    "revoked_or_disabled_fail_closed": true
+  },
   "notes": [
     "This manifest is an audit boundary only and does not build an operator package.",
     "The eventual package builder must use a strict allowlist and prove that server_only and excluded patterns are absent from output artifacts.",
+    "Machine registration files are local candidates only; production registration authority remains server-side.",
     "No source-tree distribution is approved by this manifest."
   ]
 }
