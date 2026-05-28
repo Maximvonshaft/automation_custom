@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CustomsOps Operator Support Diagnostics Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "created_at_utc",
+    "package_name",
+    "package_version",
+    "machine_id_present",
+    "tenant_id_present",
+    "evidence_file_hashes",
+    "sensitive_content_excluded"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "created_at_utc": {"type": "string"},
+    "package_name": {"type": "string"},
+    "package_version": {"type": "string"},
+    "machine_id_present": {"type": "boolean"},
+    "tenant_id_present": {"type": "boolean"},
+    "powershell_version": {"type": "string"},
+    "python_version": {"type": "string"},
+    "evidence_file_hashes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["relative_path", "sha256"],
+        "properties": {
+          "relative_path": {"type": "string"},
+          "sha256": {"type": "string"}
+        }
+      }
+    },
+    "sensitive_content_excluded": {"type": "boolean", "const": true},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  }
+}
