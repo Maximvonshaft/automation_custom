@@ -44,7 +44,13 @@ def _signed_plan(machine_id: str = "machine_demo") -> tuple[dict, object]:
 
 
 def test_machine_fingerprint_is_deterministic_for_same_parts():
-    parts = {"node": "host-a", "system": "Windows", "release": "11", "machine": "AMD64", "mac": "abc"}
+    parts = {
+        "node": "host-a",
+        "system": "Windows",
+        "release": "11",
+        "machine": "AMD64",
+        "mac": "abc",
+    }
 
     assert machine_fingerprint_sha256(parts) == machine_fingerprint_sha256(parts)
     assert len(machine_fingerprint_sha256(parts)) == 64
