@@ -1,4 +1,4 @@
-import json
+from json import loads
 from pathlib import Path
 
 
@@ -7,7 +7,7 @@ MANIFEST_PATH = ROOT / "packaging" / "operator_package_manifest.json"
 
 
 def _manifest() -> dict:
-    return json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    return loads(MANIFEST_PATH.read_text(encoding="utf-8"))
 
 
 def test_operator_package_manifest_exists_and_is_not_release_package():
