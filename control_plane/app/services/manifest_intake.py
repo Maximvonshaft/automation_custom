@@ -27,10 +27,37 @@ HEADER_ALIASES = {
         "document_reference",
         "kodi",
     },
-    "hs_code": {"hs", "hs code", "hs_code", "commodity code", "tariff code", "tax hs code"},
-    "quantity": {"quantity", "qty", "packages", "pieces"},
-    "statistical_quantity": {"statistical quantity", "statistical_quantity", "stat qty"},
-    "gross_weight": {"gross weight", "gross_weight", "weight", "total weight", "gw"},
+    "hs_code": {
+        "hs",
+        "hs code",
+        "hscode",
+        "hs_code",
+        "commodity code",
+        "tariff code",
+        "tax hs code",
+        "税率hs code",
+    },
+    "quantity": {"quantity", "qty", "packages", "pieces", "sasia"},
+    "statistical_quantity": {
+        "statistical quantity",
+        "statistical_quantity",
+        "stat qty",
+        "frequency / count",
+        "frequency count",
+        "count",
+        "出现次数",
+    },
+    "gross_weight": {
+        "gross weight",
+        "gross_weight",
+        "weight",
+        "total weight",
+        "total weight (kg)",
+        "gw",
+        "pesha",
+        "总重量(kg)",
+        "总重量",
+    },
     "net_weight": {"net weight", "net_weight", "nw"},
     "invoice_value": {
         "invoice value",
@@ -38,13 +65,20 @@ HEADER_ALIASES = {
         "value",
         "customs value",
         "consolidated value",
+        "çmimi/$",
+        "cmimi/$",
+        "合并货值",
     },
-    "origin": {"origin", "country of origin", "origin country"},
+    "origin": {"origin", "country of origin", "origin country", "origjina prej nga vije"},
     "description": {
         "description",
         "goods description",
         "item description",
         "declaration description",
+        "description of goods",
+        "货物描述",
+        "报关货描",
+        "malli/ produkti",
     },
 }
 
@@ -131,7 +165,7 @@ def _detect_header_row(rows: Sequence[Sequence[Any]]) -> tuple[int, list[str]]:
     for index, row in enumerate(rows[:20]):
         headers = [_canonical_header(value) or "" for value in row]
         score = len(set(headers) & REQUIRED_HEADERS)
-        if score > best_score:
+        if score >= best_score:
             best_index = index
             best_headers = headers
             best_score = score
@@ -155,14 +189,27 @@ def _rows_from_worksheet(sheet: Any) -> tuple[list[dict[str, Any]], int]:
     return parsed_rows, header_index + 1
 
 
+def _sheet_has_manifest_headers(sheet: Any) -> bool:
+    try:
+        _detect_header_row(_sheet_rows(sheet))
+    except ValueError:
+        return False
+    return True
+
+
 def load_workbook_rows_from_bytes(content: bytes) -> dict[str, list[dict[str, Any]]]:
     workbook = load_workbook(BytesIO(content), read_only=True, data_only=True)
     parsed: dict[str, list[dict[str, Any]]] = {}
     for sheet_name in workbook.sheetnames:
+        target_sheet = sheet_name
         if sheet_name not in SUPPORTED_SHEETS:
+            if not _sheet_has_manifest_headers(workbook[sheet_name]):
+                continue
+            target_sheet = "Separate"
+        if target_sheet in parsed:
             continue
         rows, _header_row = _rows_from_worksheet(workbook[sheet_name])
-        parsed[sheet_name] = rows
+        parsed[target_sheet] = rows
     return parsed
 
 

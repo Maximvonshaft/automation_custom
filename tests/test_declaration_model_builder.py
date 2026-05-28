@@ -62,3 +62,39 @@ def test_declaration_model_contains_no_gui_coordinates_or_pack_rules():
     assert "coordinate" not in model_text
     assert "dropdown" not in model_text
     assert "safebrake_policy" not in model_text
+
+
+def test_builds_declaration_model_from_non_merge_frontline_shape():
+    manifest, _report = parse_manifest(
+        {
+            "Separate": [
+                {
+                    "description": "sanitized product description",
+                    "awb": "SANITIZED-KODI-003",
+                    "quantity": 3,
+                    "gross_weight": 1.25,
+                    "invoice_value": 90.5,
+                    "origin": "CN",
+                    "hs_code": "61091000",
+                    "statistical_quantity": 3,
+                }
+            ]
+        }
+    )
+
+    model = build_declaration_model(
+        manifest,
+        manifest_bytes=b"sanitized non-merge fixture",
+        filename="sanitized_non_merge_sheet3.xlsx",
+    )
+
+    item = model["items"][0]
+    assert item["document_reference"] == "SANITIZED-KODI-003"
+    assert item["hs_code"] == "61091000"
+    assert item["quantity"] == 3
+    assert item["statistical_quantity"] == 3
+    assert item["gross_weight"] == 1.25
+    assert item["net_weight"] == 1.25
+    assert item["invoice_value"] == 90.5
+    assert item["origin"] == "CN"
+    assert "sanitized product description" in item["description"]
