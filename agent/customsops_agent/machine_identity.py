@@ -5,6 +5,7 @@ import json
 import os
 import platform
 import uuid
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -102,3 +103,29 @@ def assert_machine_registration_active(registration: MachineRegistration) -> Non
         raise ValueError("Machine registration is revoked or disabled")
     if not registration.is_active:
         raise ValueError(f"Machine registration is not active: {registration.registration_status}")
+
+
+def assert_machine_fingerprint_matches(
+    registration: MachineRegistration,
+    *,
+    fingerprint_provider: Callable[[], str] | None = None,
+) -> None:
+    provider = fingerprint_provider or machine_fingerprint_sha256
+    current_fingerprint = provider()
+    if current_fingerprint != registration.machine_fingerprint_sha256:
+        raise ValueError(
+            "Machine fingerprint mismatch: "
+            f"registration={registration.machine_fingerprint_sha256} current={current_fingerprint}"
+        )
+
+
+def assert_machine_registration_runtime_valid(
+    registration: MachineRegistration,
+    *,
+    fingerprint_provider: Callable[[], str] | None = None,
+) -> None:
+    assert_machine_registration_active(registration)
+    assert_machine_fingerprint_matches(
+        registration,
+        fingerprint_provider=fingerprint_provider,
+    )

@@ -3,7 +3,9 @@ from datetime import UTC, datetime, timedelta
 import pytest
 
 from agent.customsops_agent.machine_identity import (
+    assert_machine_fingerprint_matches,
     assert_machine_registration_active,
+    assert_machine_registration_runtime_valid,
     machine_fingerprint_sha256,
     parse_machine_registration,
 )
@@ -11,12 +13,15 @@ from agent.customsops_agent.signed_plan import validate_signed_plan
 from control_plane.app.services.job_signer import JobSigner
 from shared.signing.ed25519 import generate_private_key
 
+DEMO_FINGERPRINT = "a" * 64
+OTHER_FINGERPRINT = "b" * 64
 
-def _registration(status: str = "active") -> dict:
+
+def _registration(status: str = "active", fingerprint: str = DEMO_FINGERPRINT) -> dict:
     return {
         "tenant_id": "tenant_demo",
         "machine_id": "machine_demo",
-        "machine_fingerprint_sha256": "a" * 64,
+        "machine_fingerprint_sha256": fingerprint,
         "agent_version": "4.0.0",
         "operator_package_version": "0.0.0-skeleton",
         "registration_status": status,
@@ -90,6 +95,29 @@ def test_machine_registration_rejects_invalid_fingerprint():
         parse_machine_registration(data)
 
 
+def test_machine_registration_runtime_valid_requires_matching_fingerprint():
+    registration = parse_machine_registration(_registration("active", DEMO_FINGERPRINT))
+
+    assert_machine_fingerprint_matches(
+        registration,
+        fingerprint_provider=lambda: DEMO_FINGERPRINT,
+    )
+    assert_machine_registration_runtime_valid(
+        registration,
+        fingerprint_provider=lambda: DEMO_FINGERPRINT,
+    )
+
+
+def test_machine_registration_runtime_valid_rejects_fingerprint_mismatch():
+    registration = parse_machine_registration(_registration("active", DEMO_FINGERPRINT))
+
+    with pytest.raises(ValueError, match="fingerprint mismatch"):
+        assert_machine_registration_runtime_valid(
+            registration,
+            fingerprint_provider=lambda: OTHER_FINGERPRINT,
+        )
+
+
 def test_signed_plan_machine_binding_rejects_wrong_machine():
     plan, public_key = _signed_plan(machine_id="other_machine")
 
@@ -104,7 +132,10 @@ def test_signed_plan_machine_binding_rejects_wrong_machine():
 
 def test_signed_plan_machine_binding_accepts_registered_machine():
     registration = parse_machine_registration(_registration("active"))
-    assert_machine_registration_active(registration)
+    assert_machine_registration_runtime_valid(
+        registration,
+        fingerprint_provider=lambda: DEMO_FINGERPRINT,
+    )
     plan, public_key = _signed_plan(machine_id=registration.machine_id)
 
     validated = validate_signed_plan(
