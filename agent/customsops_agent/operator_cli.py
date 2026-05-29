@@ -288,11 +288,12 @@ def _emit_json(payload: dict[str, Any], output_json: Path | None = None) -> None
     print(text)
 
 
-def _open_in_file_manager(path: Path) -> bool:
+def _open_evidence_location(path: Path) -> bool:
     startfile = getattr(os, "startfile", None)
     if startfile is None:
         return False
-    startfile(str(path))
+    target = path.parent if path.suffix == ".zip" else path
+    startfile(str(target))
     return True
 
 
@@ -348,7 +349,7 @@ def _handle_run_signed_job(args: argparse.Namespace) -> int:
         use_real_gui=args.real_gui,
         foreground_window_title=args.foreground_window_title,
     )
-    opened = _open_in_file_manager(evidence_bundle) if args.open_evidence_folder else False
+    opened = _open_evidence_location(evidence_bundle) if args.open_evidence_folder else False
     _emit_json(
         {
             "result": "completed",
