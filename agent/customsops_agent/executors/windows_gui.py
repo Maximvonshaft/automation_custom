@@ -81,15 +81,16 @@ class WindowsGuiExecutor:
         return self.ledger
 
     def _record(self, step: dict, status: str = "executed") -> None:
-        self.ledger.append(
-            {
-                "step": step["step"],
-                "action": step["action"],
-                "field_key": step.get("field_key"),
-                "label": step.get("label"),
-                "status": status,
-            }
-        )
+        entry = {
+            "step": step["step"],
+            "action": step["action"],
+            "field_key": step.get("field_key"),
+            "label": step.get("label"),
+            "status": status,
+        }
+        if step.get("artifact_path"):
+            entry["artifact_path"] = str(step["artifact_path"])
+        self.ledger.append(entry)
 
     def execute_wait(self, step: dict) -> None:
         duration_seconds = float(step.get("duration_seconds", 0.1))
@@ -115,8 +116,10 @@ class WindowsGuiExecutor:
 
     def execute_screenshot(self, step: dict) -> None:
         path = Path(str(step.get("path", "evidence/screenshots/screenshot.png")))
-        self.backend.screenshot(path)
-        self._record(step)
+        captured_path = self.backend.screenshot(path)
+        recorded_step = dict(step)
+        recorded_step["artifact_path"] = str(captured_path)
+        self._record(recorded_step)
 
     def execute_store_line_safebrake(self, step: dict) -> None:
         self.backend.click(int(step["x"]), int(step["y"]))
