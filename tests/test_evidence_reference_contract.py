@@ -7,11 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from agent.customsops_agent.evidence_reference import (
-    EVIDENCE_REFERENCE_SCHEMA_VERSION,
-    build_evidence_reference,
-    write_evidence_reference,
-)
+from agent.customsops_agent import evidence_reference
 from agent.customsops_agent.operator_cli import main as operator_cli_main
 
 
@@ -53,10 +49,10 @@ def test_build_evidence_reference_is_reference_only(tmp_path: Path):
     bundle = tmp_path / "evidence.zip"
     manifest = _write_evidence_bundle(bundle)
 
-    reference = build_evidence_reference(bundle)
+    reference = evidence_reference.build_evidence_reference(bundle)
     serialized = json.dumps(reference, sort_keys=True)
 
-    assert reference["schema_version"] == EVIDENCE_REFERENCE_SCHEMA_VERSION
+    assert reference["schema_version"] == evidence_reference.EVIDENCE_REFERENCE_SCHEMA_VERSION
     assert reference["reference_type"] == "local_evidence_bundle_reference"
     assert reference["run_context"]["tenant_id"] == manifest["tenant_id"]
     assert reference["run_context"]["machine_id"] == manifest["machine_id"]
@@ -75,7 +71,7 @@ def test_screenshot_artifacts_are_hash_references_only(tmp_path: Path):
     bundle = tmp_path / "evidence.zip"
     _write_evidence_bundle(bundle)
 
-    reference = build_evidence_reference(bundle)
+    reference = evidence_reference.build_evidence_reference(bundle)
     screenshots = reference["screenshot_artifacts"]
 
     assert len(screenshots) == 1
@@ -94,7 +90,7 @@ def test_support_diagnostics_are_referenced_by_hash_only(tmp_path: Path):
         encoding="utf-8",
     )
 
-    reference = build_evidence_reference(
+    reference = evidence_reference.build_evidence_reference(
         bundle,
         support_diagnostics_manifest_path=diagnostics,
     )
@@ -112,7 +108,7 @@ def test_missing_evidence_manifest_fails_closed(tmp_path: Path):
         archive.writestr("ledger.json", "[]")
 
     with pytest.raises(ValueError, match="missing evidence_manifest"):
-        build_evidence_reference(bundle)
+        evidence_reference.build_evidence_reference(bundle)
 
 
 def test_write_evidence_reference_creates_stable_json_file(tmp_path: Path):
@@ -120,7 +116,7 @@ def test_write_evidence_reference_creates_stable_json_file(tmp_path: Path):
     output = tmp_path / "reference" / "evidence_reference.json"
     _write_evidence_bundle(bundle)
 
-    result_path = write_evidence_reference(bundle, output)
+    result_path = evidence_reference.write_evidence_reference(bundle, output)
     payload = json.loads(result_path.read_text(encoding="utf-8"))
 
     assert result_path == output
