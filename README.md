@@ -4,8 +4,8 @@
 
 - `v4.1` is an internal Release Candidate after local quality gates and Windows ASYCUDA Lab Smoke evidence under SafeBrake.
 - `v4.2` is the active controlled-operator-package hardening track.
-- Merged v4.2 milestones currently cover packaging boundaries, Windows operator package skeleton, machine registration/binding, signed-job-only operator flow, and Operator UX shell.
-- This branch adds Milestone 6: reference-only evidence metadata for HQ review.
+- Merged v4.2 milestones currently cover packaging boundaries, Windows operator package skeleton, machine registration/binding, signed-job-only operator flow, Operator UX shell, and evidence reference metadata.
+- This branch adds Milestone 7: controlled pilot gate records, allowlists, package note template, and rollback/disable runbook.
 - External operator package distribution is still not approved.
 - Do not distribute this repository as an external operator package.
 
@@ -17,6 +17,7 @@
 - No country pack content may be moved into `agent/`.
 - No local Excel-to-executable-plan compilation is allowed.
 - No raw screenshot, ledger, evidence bundle, production ASYCUDA credential, broker authorization value, real customer Excel file, or real AWB row may be committed.
+- A pilot gate record is not an external rollout approval.
 
 # CustomsOps Autopilot Controlled Runtime
 
@@ -30,6 +31,7 @@ This repository converts the internal ASYCUDA automation work from a copyable lo
 - SafeBrake execution modes
 - evidence bundle collection
 - evidence reference metadata
+- controlled pilot gate records
 - kill switch / revocation
 
 ## Why this exists
@@ -69,11 +71,11 @@ Merged or active milestones:
 4. Signed-job-only operator flow.
 5. Operator UX shell for status, superficial manifest precheck, and signed-job execution.
 6. Evidence reference model for hash-only HQ review metadata.
+7. Controlled pilot gate for allowlists, checksum review, approval placeholders, and rollback/disable controls.
 
 Pending milestones:
 
-1. Controlled pilot package release gate.
-2. Separate external rollout approval.
+1. Separate external rollout approval.
 
 ## Operator shell commands
 
@@ -107,6 +109,16 @@ After editable install, the console entrypoint is:
 customsops-operator status --machine-registration <path> --public-key-pem <path>
 ```
 
+## Controlled pilot gate
+
+M7 adds a gate record workflow only:
+
+```text
+packaging/windows_operator/pilot_gate_record.ps1
+```
+
+The gate record checks candidate manifest/checksum inputs and references operator and machine allowlists. It does not create an installer, approve external rollout, include country packs, or enable local Excel compilation.
+
 ## Non-goals
 
 - No Submit/Register automation.
@@ -116,6 +128,7 @@ customsops-operator status --machine-registration <path> --public-key-pem <path>
 - No local Excel-to-executable-plan compiler.
 - No network evidence upload in Milestone 6.
 - No raw screenshot content in evidence references.
+- No external rollout approval in Milestone 7.
 - No credential capture, cookie reading, login bypass, or backend request forgery.
 - No production external operator package approval in implementation PRs.
 
