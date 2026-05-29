@@ -6,6 +6,8 @@ from pathlib import Path
 
 from agent.customsops_agent import operator_cli
 
+PUBLIC_KEY_PLACEHOLDER = "-----BEGIN PUBLIC KEY-----\nplaceholder\n-----END PUBLIC KEY-----\n"
+
 
 def _write_registration(path: Path, status: str = "active") -> None:
     path.write_text(
@@ -56,7 +58,9 @@ def test_manifest_precheck_rejects_unsupported_file_type(tmp_path: Path):
     assert result.zip_integrity_ok is None
 
 
-def test_manifest_precheck_accepts_valid_excel_container_without_parsing_rows(tmp_path: Path):
+def test_manifest_precheck_accepts_valid_excel_container_without_parsing_rows(
+    tmp_path: Path,
+):
     manifest = tmp_path / "manifest.xlsx"
     _write_minimal_xlsx(manifest)
 
@@ -81,11 +85,13 @@ def test_manifest_precheck_rejects_corrupt_excel_container(tmp_path: Path):
     assert result.workbook_xml_present is False
 
 
-def test_operator_status_ready_when_registration_active_and_public_key_file_present(tmp_path: Path):
+def test_operator_status_ready_when_registration_active_and_public_key_file_present(
+    tmp_path: Path,
+):
     registration_path = tmp_path / "machine_registration.json"
     public_key_path = tmp_path / "trusted_public_key.pem"
     _write_registration(registration_path, "active")
-    public_key_path.write_text("-----BEGIN PUBLIC KEY-----\nplaceholder\n-----END PUBLIC KEY-----\n", encoding="ascii")
+    public_key_path.write_text(PUBLIC_KEY_PLACEHOLDER, encoding="ascii")
 
     result = operator_cli.inspect_operator_status(
         machine_registration_path=registration_path,
@@ -103,7 +109,7 @@ def test_operator_status_fails_closed_for_pending_registration(tmp_path: Path):
     registration_path = tmp_path / "machine_registration.json"
     public_key_path = tmp_path / "trusted_public_key.pem"
     _write_registration(registration_path, "pending")
-    public_key_path.write_text("-----BEGIN PUBLIC KEY-----\nplaceholder\n-----END PUBLIC KEY-----\n", encoding="ascii")
+    public_key_path.write_text(PUBLIC_KEY_PLACEHOLDER, encoding="ascii")
 
     result = operator_cli.inspect_operator_status(
         machine_registration_path=registration_path,
