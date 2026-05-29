@@ -34,7 +34,9 @@ def test_v311_coordinate_pack_contains_expected_fields_and_safebrake():
     assert fields[0]["x"] == 90
     assert fields[0]["y"] == 383
 
-    currency = next(field for field in fields if field["field_key"] == "f19_safebrake_currency_skip")
+    currency = next(
+        field for field in fields if field["field_key"] == "f19_safebrake_currency_skip"
+    )
     assert currency["action"] == "skip"
     assert currency["constant"] == ""
     assert currency["risk_level"] == "safety_fuse"
@@ -81,7 +83,9 @@ def test_v311_compiler_omits_currency_and_forbidden_actions():
     assert steps[tariff2_index + 1]["action"] == "hotkey"
     assert steps[tariff2_index + 1]["keys"] == ["tab"]
 
-    statistical = next(step for step in steps if step.get("field_key") == "f09_statistical_quantity_keyboard")
+    statistical = next(
+        step for step in steps if step.get("field_key") == "f09_statistical_quantity_keyboard"
+    )
     assert statistical["action"] == "paste"
     assert "x" not in statistical
     assert "y" not in statistical
