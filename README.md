@@ -1,24 +1,26 @@
 # automation_custom
 
-## Containment Warning
+## Current Status
 
-- v4.1 in `main` is an Implementation Candidate only.
-- v4.1 is not approved for external deployment.
-- Remote GitHub Actions quality gate and Windows ASYCUDA lab smoke evidence remain required before
-  release.
-- v4.0 is a Controlled Runtime MVP.
-- Local Agent uses `MockActionExecutor`.
-- Real Windows/ASYCUDA foreground GUI executor is not implemented in v4.0.
-- `v3.1.1 SafeBrake` remains the verified field runtime baseline.
+- `v4.1` is an internal Release Candidate after local quality gates and Windows ASYCUDA Lab Smoke evidence under SafeBrake.
+- `v4.2` is the active controlled-operator-package hardening track.
+- Merged v4.2 milestones currently cover packaging boundaries, Windows operator package skeleton, machine registration/binding, and signed-job-only operator flow.
+- This branch adds Milestone 5: minimal Operator UX shell for status, superficial manifest precheck, and signed-job execution.
+- External operator package distribution is still not approved.
 - Do not distribute this repository as an external operator package.
 
-# CustomsOps Autopilot v4.0 Controlled Runtime - Production Implementation Pack for Codex
+## Containment Warning
 
-This repository implements the v4.0 Controlled Runtime MVP production loop from the Codex
-construction pack.
+- Local execution remains signed-job-only.
+- Runtime modes remain `fillOnly` and `safeBrakeStore`.
+- No Submit/Register/Payment/tax-finalizing automation is approved.
+- No country pack content may be moved into `agent/`.
+- No local Excel-to-executable-plan compilation is allowed.
+- No production ASYCUDA credentials, broker authorization values, real customer Excel files, or real AWB rows may be committed.
 
-It converts the current internal ASYCUDA automation work from a copyable local ZIP into a controlled
-automation service with:
+# CustomsOps Autopilot Controlled Runtime
+
+This repository converts the internal ASYCUDA automation work from a copyable local ZIP into a controlled automation architecture with:
 
 - HQ Control Plane
 - Local Operator Agent
@@ -31,7 +33,7 @@ automation service with:
 
 ## Why this exists
 
-The current automation contains valuable know-how:
+The automation contains valuable know-how:
 
 - ASYCUDA blackbox field coordinates
 - field-type actions
@@ -40,38 +42,63 @@ The current automation contains valuable know-how:
 - SafeBrake Store validation flow
 - review bundle and evidence flow
 
-If shipped as a ZIP, it can be copied, reverse-engineered, or reused by local IT vendors and agents.
-This repository defines a production-grade controlled architecture where HQ owns the rules and the
-local endpoint only executes signed tasks.
+If shipped as a loose source ZIP, it can be copied, reverse-engineered, or reused by local IT vendors and agents. This repository defines a controlled architecture where HQ owns the rules and the local endpoint only executes signed tasks.
 
 ## Current proven baseline
 
-Internal baseline: `v3.1.1 SafeBrake`.
+Internal baseline: `v3.1.1 SafeBrake` and `v4.1` internal Release Candidate.
 
-Evidence established in real ASYCUDA environment:
+Evidence established in a real ASYCUDA environment:
 
 - Line Transaction core fields can be filled through coordinate resolver + field-type actions.
 - Line Store button can be triggered.
-- SafeBrake can intentionally block Store success by leaving `Kodi i monedhes se fatures` /
-  Currency empty.
+- SafeBrake can intentionally block Store success by leaving `Kodi i monedhes se fatures` / Currency empty.
 - Review bundles contain screenshots and ledger evidence.
+- Windows ASYCUDA Lab Smoke evidence passed for field fill, Store SafeBrake, and evidence bundle.
 
-## v4.0 MVP scope
+## v4.2 controlled operator package track
 
-v4.0 is not a new ASYCUDA feature sprint. It is a control and commercialization-hardening sprint.
-This PR is a Controlled Runtime MVP.
+Current target: convert the internal release candidate into a controlled operator package model where operators can run supervised ASYCUDA foreground automation without receiving the source tree, country packs, coordinates, business mapping, or SafeBrake policy internals.
 
-Deliver v4.0 as:
+Merged or active milestones:
 
-1. a server-side control plane that owns country packs and compiles signed jobs;
-2. a local Agent that executes only signed job plans;
-3. evidence collection and watermarking;
-4. license / tenant / machine / expiry enforcement;
-5. default `fillOnly` and `safeBrakeStore` modes only;
-6. a Local Agent execution boundary that currently uses `MockActionExecutor`.
+1. Packaging boundary audit.
+2. Windows operator package skeleton.
+3. Machine registration and machine binding contract.
+4. Signed-job-only operator flow.
+5. Operator UX shell for status, superficial manifest precheck, and signed-job execution.
 
-The real Windows/ASYCUDA foreground GUI executor is not implemented in this PR. The verified
-field-runtime baseline remains `v3.1.1 SafeBrake` until GUI executor integration lands.
+Pending milestones:
+
+1. Evidence upload/reference model.
+2. Controlled pilot package release gate.
+3. Separate external rollout approval.
+
+## Operator shell commands
+
+Status:
+
+```text
+python -m agent.customsops_agent.operator_cli status --machine-registration <path> --public-key-pem <path>
+```
+
+Manifest superficial precheck:
+
+```text
+python -m agent.customsops_agent.operator_cli precheck-manifest --manifest <manifest.xlsx>
+```
+
+Run signed job:
+
+```text
+python -m agent.customsops_agent.operator_cli run-signed-job --signed-job-plan <signed_job_plan.json> --machine-registration <path> --public-key-pem <path> --evidence-root <path>
+```
+
+After editable install, the console entrypoint is:
+
+```text
+customsops-operator status --machine-registration <path> --public-key-pem <path>
+```
 
 ## Non-goals
 
@@ -79,18 +106,19 @@ field-runtime baseline remains `v3.1.1 SafeBrake` until GUI executor integration
 - No tax/payment workflow automation.
 - No distribution of source ZIP to agents.
 - No local plaintext country pack.
+- No local Excel-to-executable-plan compiler.
 - No credential capture, cookie reading, login bypass, or backend request forgery.
-- No real Windows/ASYCUDA foreground GUI executor integration in this PR.
+- No production external operator package approval in implementation PRs.
 
 ## Quality gate
 
-The required GitHub Actions workflow runs:
+Required validation command set:
 
 ```text
 python 15_automation_scripts/validate_pack.py
-ruff check .
-pytest -q
-bandit -q -r agent control_plane shared
+python -m ruff check .
+python -m pytest -q
+python -m bandit -q -r agent control_plane shared
 ```
 
 ## Codex usage
@@ -101,4 +129,4 @@ Start with:
 17_codex_prompts/CODEX_MASTER_PROMPT.md
 ```
 
-Then execute the milestone prompts in order.
+Then execute milestone prompts in order.
