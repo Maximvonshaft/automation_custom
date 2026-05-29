@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CustomsOps Evidence Reference",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "reference_type",
+    "evidence_reference_id",
+    "evidence_reference_sha256",
+    "run_context",
+    "evidence_bundle",
+    "evidence_manifest",
+    "artifact_hashes",
+    "bundle_entries",
+    "screenshot_artifacts",
+    "support_diagnostics",
+    "policy"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "reference_type": {
+      "type": "string",
+      "const": "local_evidence_bundle_reference"
+    },
+    "evidence_reference_id": {
+      "type": "string",
+      "pattern": "^evref_[0-9a-f]{24}$"
+    },
+    "evidence_reference_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "run_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tenant_id",
+        "machine_id",
+        "job_id",
+        "run_id",
+        "mode",
+        "pack_id",
+        "pack_version",
+        "agent_version"
+      ],
+      "properties": {
+        "tenant_id": {"type": ["string", "null"]},
+        "machine_id": {"type": ["string", "null"]},
+        "job_id": {"type": ["string", "null"]},
+        "run_id": {"type": ["string", "null"]},
+        "mode": {"type": ["string", "null"]},
+        "pack_id": {"type": ["string", "null"]},
+        "pack_version": {"type": ["string", "null"]},
+        "agent_version": {"type": ["string", "null"]}
+      }
+    },
+    "evidence_bundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file_name", "size_bytes", "sha256", "content_included"],
+      "properties": {
+        "file_name": {"type": "string"},
+        "size_bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "content_included": {"type": "boolean", "const": false}
+      }
+    },
+    "evidence_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file_name", "sha256", "content_included"],
+      "properties": {
+        "file_name": {"type": "string", "const": "evidence_manifest.json"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "content_included": {"type": "boolean", "const": false}
+      }
+    },
+    "artifact_hashes": {
+      "type": "object",
+      "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+    },
+    "bundle_entries": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "screenshot_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "file_name",
+          "sha256",
+          "content_included",
+          "redaction_required_before_upload"
+        ],
+        "properties": {
+          "file_name": {"type": "string"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "content_included": {"type": "boolean", "const": false},
+          "redaction_required_before_upload": {"type": "boolean", "const": true}
+        }
+      }
+    },
+    "support_diagnostics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["available", "content_included", "file_name", "sha256"],
+      "properties": {
+        "available": {"type": "boolean"},
+        "content_included": {"type": "boolean", "const": false},
+        "file_name": {"type": ["string", "null"]},
+        "sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference_only",
+        "raw_artifacts_uploaded",
+        "screenshot_content_included",
+        "requires_hq_review"
+      ],
+      "properties": {
+        "reference_only": {"type": "boolean", "const": true},
+        "raw_artifacts_uploaded": {"type": "boolean", "const": false},
+        "screenshot_content_included": {"type": "boolean", "const": false},
+        "requires_hq_review": {"type": "boolean", "const": true}
+      }
+    }
+  }
+}
