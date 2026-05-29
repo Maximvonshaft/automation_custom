@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import platform
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Protocol
@@ -53,16 +54,24 @@ class WindowsGuiExecutor:
     backend: GuiBackend | None = None
     platform_name: str = field(default_factory=platform.system)
     ledger: list[dict] = field(default_factory=list)
+    active_window_title_provider: Callable[[], str] | None = None
 
     def __post_init__(self) -> None:
         if self.platform_name != "Windows":
             raise RuntimeError("Real GUI execution is Windows-only")
-        assert_asycuda_foreground_window(self.foreground_window_title)
+        self._assert_foreground()
         if self.backend is None:
             self.backend = PyAutoGuiBackend()
 
+    def _assert_foreground(self) -> str:
+        return assert_asycuda_foreground_window(
+            self.foreground_window_title,
+            active_window_title_provider=self.active_window_title_provider,
+        )
+
     def execute(self, steps: list[dict]) -> list[dict]:
         for step in steps:
+            self._assert_foreground()
             action = step["action"]
             assert_agent_action_allowed(action)
             handler = getattr(self, f"execute_{action}", None)
