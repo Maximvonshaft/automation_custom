@@ -4,8 +4,8 @@
 
 - `v4.1` is an internal Release Candidate after local quality gates and Windows ASYCUDA Lab Smoke evidence under SafeBrake.
 - `v4.2` is the active controlled-operator-package hardening track.
-- Merged v4.2 milestones currently cover packaging boundaries, Windows operator package skeleton, machine registration/binding, and signed-job-only operator flow.
-- This branch adds Milestone 5: minimal Operator UX shell for status, superficial manifest precheck, and signed-job execution.
+- Merged v4.2 milestones currently cover packaging boundaries, Windows operator package skeleton, machine registration/binding, signed-job-only operator flow, and Operator UX shell.
+- This branch adds Milestone 6: reference-only evidence metadata for HQ review.
 - External operator package distribution is still not approved.
 - Do not distribute this repository as an external operator package.
 
@@ -16,7 +16,7 @@
 - No Submit/Register/Payment/tax-finalizing automation is approved.
 - No country pack content may be moved into `agent/`.
 - No local Excel-to-executable-plan compilation is allowed.
-- No production ASYCUDA credentials, broker authorization values, real customer Excel files, or real AWB rows may be committed.
+- No raw screenshot, ledger, evidence bundle, production ASYCUDA credential, broker authorization value, real customer Excel file, or real AWB row may be committed.
 
 # CustomsOps Autopilot Controlled Runtime
 
@@ -29,6 +29,7 @@ This repository converts the internal ASYCUDA automation work from a copyable lo
 - license / machine binding
 - SafeBrake execution modes
 - evidence bundle collection
+- evidence reference metadata
 - kill switch / revocation
 
 ## Why this exists
@@ -67,12 +68,12 @@ Merged or active milestones:
 3. Machine registration and machine binding contract.
 4. Signed-job-only operator flow.
 5. Operator UX shell for status, superficial manifest precheck, and signed-job execution.
+6. Evidence reference model for hash-only HQ review metadata.
 
 Pending milestones:
 
-1. Evidence upload/reference model.
-2. Controlled pilot package release gate.
-3. Separate external rollout approval.
+1. Controlled pilot package release gate.
+2. Separate external rollout approval.
 
 ## Operator shell commands
 
@@ -94,6 +95,12 @@ Run signed job:
 python -m agent.customsops_agent.operator_cli run-signed-job --signed-job-plan <signed_job_plan.json> --machine-registration <path> --public-key-pem <path> --evidence-root <path>
 ```
 
+Create reference-only evidence metadata:
+
+```text
+python -m agent.customsops_agent.operator_cli reference-evidence --evidence-bundle <evidence_bundle.zip> --output-json <evidence_reference.json>
+```
+
 After editable install, the console entrypoint is:
 
 ```text
@@ -107,6 +114,8 @@ customsops-operator status --machine-registration <path> --public-key-pem <path>
 - No distribution of source ZIP to agents.
 - No local plaintext country pack.
 - No local Excel-to-executable-plan compiler.
+- No network evidence upload in Milestone 6.
+- No raw screenshot content in evidence references.
 - No credential capture, cookie reading, login bypass, or backend request forgery.
 - No production external operator package approval in implementation PRs.
 
