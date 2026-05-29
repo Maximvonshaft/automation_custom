@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "package_name": "customsops-controlled-operator-package",
-  "milestone": "v4.2-milestone-6-evidence-reference-model",
+  "milestone": "v4.2-milestone-7-controlled-pilot-gate",
   "status": "boundary_manifest_only_not_a_release_package",
   "classification_rules": {
     "operator_local_candidate": [
@@ -21,9 +21,13 @@
       "shared/schemas/job_plan.schema.json",
       "shared/schemas/machine_registration.schema.json",
       "shared/schemas/evidence_reference.schema.json",
+      "shared/schemas/pilot_gate_record.schema.json",
       "scripts/windows_lab_smoke_prepare_env.ps1",
       "scripts/windows_lab_smoke_runner.ps1",
-      "scripts/windows_lab_smoke_collect_evidence.ps1"
+      "scripts/windows_lab_smoke_collect_evidence.ps1",
+      "packaging/windows_operator/pilot_gate_record.ps1",
+      "packaging/windows_operator/operator_allowlist.example.json",
+      "packaging/windows_operator/machine_allowlist.example.json"
     ],
     "server_only": [
       "control_plane/**",
@@ -43,7 +47,10 @@
       "docs/v4.2_machine_registration.md",
       "docs/v4.2_signed_job_only_operator_flow.md",
       "docs/v4.2_operator_ux_shell.md",
-      "docs/v4.2_evidence_reference_model.md"
+      "docs/v4.2_evidence_reference_model.md",
+      "docs/v4.2_controlled_pilot_gate.md",
+      "docs/v4.2_operator_package_note_template.md",
+      "docs/v4.2_pilot_rollback_disable.md"
     ],
     "excluded": [
       ".git/**",
@@ -115,6 +122,14 @@
     "support_diagnostics_content_included": false,
     "requires_hq_review": true
   },
+  "controlled_pilot_gate": {
+    "gate_record_only": true,
+    "requires_operator_allowlist": true,
+    "requires_machine_allowlist": true,
+    "requires_build_manifest": true,
+    "requires_checksum_file": true,
+    "external_distribution_approved": false
+  },
   "notes": [
     "This manifest is an audit boundary only and does not build an operator package.",
     "The eventual package builder must use a strict allowlist and prove that server_only and excluded patterns are absent from output artifacts.",
@@ -122,6 +137,7 @@
     "Operator flow files are local candidates only; signed-job issuance remains server-side.",
     "Operator UX shell performs local precheck and signed-job invocation only; it does not parse Excel rows into executable steps.",
     "Evidence reference model emits hashes and metadata only; it does not upload or embed raw evidence artifacts.",
+    "Controlled pilot gate records review inputs only; it does not approve external distribution.",
     "No source-tree distribution is approved by this manifest."
   ]
 }
