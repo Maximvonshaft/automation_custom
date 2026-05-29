@@ -10,4 +10,6 @@ build/
 venv/
 evidence/
 local_state/
-
+outputs/
+qa_runs/
+*.pem
