@@ -10,6 +10,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
+from agent.customsops_agent.evidence_reference import write_evidence_reference
 from agent.customsops_agent.machine_identity import (
     assert_machine_registration_active,
     load_machine_registration,
@@ -264,7 +265,8 @@ def inspect_operator_status(
     except OSError as exc:
         errors.append(f"Machine registration could not be read: {exc}")
 
-    public_key_source, public_key_available, public_key_errors = _public_key_status(public_key_path)
+    public_key_state = _public_key_status(public_key_path)
+    public_key_source, public_key_available, public_key_errors = public_key_state
     errors.extend(public_key_errors)
 
     ready = machine_registration_active and public_key_available
@@ -328,6 +330,22 @@ def _handle_precheck_manifest(args: argparse.Namespace) -> int:
     return 0 if result.decision == "accept" else 2
 
 
+def _handle_reference_evidence(args: argparse.Namespace) -> int:
+    output_path = write_evidence_reference(
+        args.evidence_bundle,
+        args.output_json,
+        support_diagnostics_manifest_path=args.support_diagnostics_manifest,
+    )
+    _emit_json(
+        {
+            "result": "completed",
+            "evidence_reference": str(output_path),
+            "operator_boundary": operator_boundary(),
+        }
+    )
+    return 0
+
+
 def _handle_run_signed_job(args: argparse.Namespace) -> int:
     status = inspect_operator_status(
         machine_registration_path=args.machine_registration,
@@ -382,6 +400,14 @@ def _parser() -> argparse.ArgumentParser:
     precheck.add_argument("--manifest", required=True, type=Path)
     precheck.add_argument("--output-json", type=Path)
     precheck.set_defaults(func=_handle_precheck_manifest)
+
+    reference = subparsers.add_parser(
+        "reference-evidence", help="Create reference-only evidence metadata"
+    )
+    reference.add_argument("--evidence-bundle", required=True, type=Path)
+    reference.add_argument("--output-json", required=True, type=Path)
+    reference.add_argument("--support-diagnostics-manifest", type=Path)
+    reference.set_defaults(func=_handle_reference_evidence)
 
     run = subparsers.add_parser("run-signed-job", help="Run an HQ-issued signed job plan")
     run.add_argument("--signed-job-plan", required=True, type=Path)
