@@ -265,7 +265,8 @@ def inspect_operator_status(
     except OSError as exc:
         errors.append(f"Machine registration could not be read: {exc}")
 
-    public_key_source, public_key_available, public_key_errors = _public_key_status(public_key_path)
+    public_key_state = _public_key_status(public_key_path)
+    public_key_source, public_key_available, public_key_errors = public_key_state
     errors.extend(public_key_errors)
 
     ready = machine_registration_active and public_key_available
