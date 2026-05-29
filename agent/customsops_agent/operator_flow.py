@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import argparse
 import os
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from pathlib import Path
 
 from agent.customsops_agent.config import AgentConfig
 from agent.customsops_agent.machine_identity import (
-    assert_machine_registration_active,
+    assert_machine_registration_runtime_valid,
     load_machine_registration,
 )
 from agent.customsops_agent.main import run_signed_job
@@ -31,17 +31,21 @@ def run_operator_signed_job(
     evidence_root: Path | None = None,
     use_real_gui: bool = False,
     foreground_window_title: str | None = None,
+    fingerprint_provider: Callable[[], str] | None = None,
 ) -> Path:
     """Run a signed HQ job through the local operator boundary.
 
     This function intentionally does not parse Excel, compile executable steps, or access
     country packs. It loads a local machine registration file, requires the registration to
-    be active, and then delegates to the existing signed-plan validation and execution
-    boundary.
+    be active and bound to the current machine fingerprint, and then delegates to the existing
+    signed-plan validation and execution boundary.
     """
 
     registration = load_machine_registration(machine_registration_path)
-    assert_machine_registration_active(registration)
+    assert_machine_registration_runtime_valid(
+        registration,
+        fingerprint_provider=fingerprint_provider,
+    )
 
     config = AgentConfig(
         tenant_id=registration.tenant_id,
