@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import argparse
 import os
-from pathlib import Path
 from collections.abc import Sequence
+from pathlib import Path
 
 from agent.customsops_agent.config import AgentConfig
 from agent.customsops_agent.machine_identity import (
