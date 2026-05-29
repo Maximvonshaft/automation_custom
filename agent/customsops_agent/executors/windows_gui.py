@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import platform
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Protocol
@@ -80,6 +81,11 @@ class WindowsGuiExecutor:
                 "status": status,
             }
         )
+
+    def execute_wait(self, step: dict) -> None:
+        duration_seconds = float(step.get("duration_seconds", 0.1))
+        time.sleep(max(duration_seconds, 0.0))
+        self._record(step)
 
     def execute_click(self, step: dict) -> None:
         self.backend.click(int(step["x"]), int(step["y"]))
