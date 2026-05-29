@@ -18,10 +18,9 @@ def _utc_now() -> str:
 
 
 def _utc_expiry(hours: int = 2) -> str:
-    return (
-        datetime.now(UTC)
-        + timedelta(hours=hours)
-    ).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    return (datetime.now(UTC) + timedelta(hours=hours)).replace(microsecond=0).isoformat().replace(
+        "+00:00", "Z"
+    )
 
 
 def _write_json(path: Path, payload: dict[str, Any]) -> None:
@@ -58,7 +57,12 @@ def _base_plan(job_id: str, pack_id: str, steps: list[dict[str, Any]]) -> dict[s
 
 def _foreground_steps() -> list[dict[str, Any]]:
     return [
-        {"step": 1, "action": "wait", "duration_seconds": 0.1, "label": "foreground wait"},
+        {
+            "step": 1,
+            "action": "wait",
+            "duration_seconds": 0.1,
+            "label": "foreground wait",
+        },
         {"step": 2, "action": "screenshot", "label": "foreground screenshot"},
     ]
 
@@ -94,7 +98,14 @@ def _tab_chain_steps(x: int, y: int, count: int) -> list[dict[str, Any]]:
     ]
     next_step = 3
     for index in range(2, count + 1):
-        steps.append({"step": next_step, "action": "hotkey", "keys": ["tab"], "label": f"tab to field {index}"})
+        steps.append(
+            {
+                "step": next_step,
+                "action": "hotkey",
+                "keys": ["tab"],
+                "label": f"tab to field {index}",
+            }
+        )
         next_step += 1
         steps.append(
             {
@@ -182,13 +193,26 @@ def run(args: argparse.Namespace) -> int:
         )
         raise
 
-    print(json.dumps({"result": "completed", "run_root": str(run_root), "evidence_reference": str(evidence_reference)}, indent=2))
+    print(
+        json.dumps(
+            {
+                "result": "completed",
+                "run_root": str(run_root),
+                "evidence_reference": str(evidence_reference),
+            },
+            indent=2,
+        )
+    )
     return 0
 
 
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run controlled ASYCUDA live probes")
-    parser.add_argument("--probe", choices=["foreground", "click-paste", "tab-chain"], required=True)
+    parser.add_argument(
+        "--probe",
+        choices=["foreground", "click-paste", "tab-chain"],
+        required=True,
+    )
     parser.add_argument("--run-root", required=True, type=Path)
     parser.add_argument("--foreground-window-title", default="ASYCUDAWorld")
     parser.add_argument("--x", type=int, default=0)

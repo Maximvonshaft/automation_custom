@@ -1,0 +1,212 @@
+pack_id: asycuda_albania_line_transaction
+pack_version: v3.1.1-safebrake-geometry-fix
+source_archive: asycuda-blackbox-autopilot-v3.1.1-safebrake-geometry-fix-flat.zip
+source_config: configs/field_sequence.albania_line_transaction.frontline_business20.v3_1_safebrake.yaml
+source_config_sha256: 0dde62c498df27fa0d63c8929f819f4acfddf3563e9b1136e560872c5531f473
+default_delay_before: 0.12
+default_delay_after: 0.45
+safe_brake:
+  currency_field_key: f19_safebrake_currency_skip
+  currency_source: currency
+  intentionally_blank: true
+  expected_store_result: validation_error_currency_required
+  notes: Invoice currency / Monedha is intentionally not filled to prevent successful Line Store while validating the fill and Store path.
+fields:
+  - order: 1
+    field_key: f01_zyrat_doganore_code
+    screen_label: Zyrat Doganore
+    source: zyrat_doganore
+    value_type: code
+    action: click_paste_code
+    x: 90
+    y: 383
+    after_action: tab
+    required: true
+    notes: Customs office code. After this step, Tab focuses Referenca autorizimit.
+  - order: 2
+    field_key: f02_authorization_reference
+    screen_label: Referenca autorizimit
+    source: authorization_reference
+    value_type: code
+    action: paste_code
+    after_action: none
+    required: true
+    notes: Must be a valid authorisation reference in the live ASYCUDA environment. If Store says Invalid authorisation reference, update CSV authorization_reference.
+  - order: 3
+    field_key: f03_means_transport_code_1
+    screen_label: Means of Transport first required code/slot
+    source: means_transport_code_1
+    value_type: code
+    action: click_paste_code
+    x: 85
+    y: 504
+    after_action: none
+    required: true
+    notes: Frontline target sequence starts with 50. This also addresses the red empty first Means of Transport slot seen in v2.9.5.
+  - order: 4
+    field_key: f04_means_transport_country_from
+    screen_label: Means of Transport country/from code
+    source: means_transport_country_from
+    value_type: code
+    action: click_paste_code
+    x: 165
+    y: 504
+    after_action: none
+    required: true
+  - order: 5
+    field_key: f05_truck_registration_plate_number
+    screen_label: Truck Registration Plate Number
+    source: truck_registration_plate_number
+    value_type: text
+    action: click_paste
+    x: 250
+    y: 504
+    after_action: none
+    required: true
+    notes: Store validation explicitly requires Truck Registration Plate Number.
+  - order: 6
+    field_key: f06_means_transport_country_to
+    screen_label: Means of Transport country/to code
+    source: means_transport_country_to
+    value_type: code
+    action: click_paste_code
+    x: 330
+    y: 504
+    after_action: none
+    required: true
+  - order: 7
+    field_key: f07_customs_tariff_1
+    screen_label: Tarifa Doganore e mallrave - field 1
+    source: customs_tariff_1
+    value_type: code
+    action: click_paste_code
+    x: 90
+    y: 563
+    after_action: none
+    required: true
+  - order: 8
+    field_key: f08_customs_tariff_2
+    screen_label: Tarifa Doganore e mallrave - field 2
+    source: customs_tariff_2
+    value_type: code
+    action: click_paste_code
+    x: 170
+    y: 563
+    after_action: tab
+    required: true
+    notes: After tariff second field, press Tab and enter statistical quantity by keyboard focus instead of coordinate clicking. This protects tariff from being overwritten.
+  - order: 9
+    field_key: f09_statistical_quantity_keyboard
+    screen_label: Numri i njesise statistikore
+    source: statistical_quantity
+    value_type: number
+    action: paste
+    after_action: none
+    required: true
+    notes: Keyboard-neighbor resolver. Do not click this field; paste after f08 Tab. Coordinate focus repeatedly overwrote tariff field 2 in earlier versions.
+  - order: 10
+    field_key: f10_goods_description
+    screen_label: Description
+    source: goods_description
+    value_type: text_multiline
+    action: click_paste
+    x: 160
+    y: 620
+    after_action: none
+    required: true
+  - order: 11
+    field_key: f11_origjina_code
+    screen_label: Origjina
+    source: origjina
+    value_type: code
+    action: click_paste_code
+    x: 60
+    y: 704
+    after_action: none
+    required: true
+  - order: 12
+    field_key: f12_preferenca_skip
+    screen_label: Preferenca
+    constant: ""
+    value_type: skip
+    action: skip
+    after_action: none
+    required: false
+  - order: 13
+    field_key: f13_kpd_zgjeruar_skip_auto
+    screen_label: KPD te zgjeruar
+    constant: ""
+    value_type: skip
+    action: skip
+    after_action: none
+    required: false
+  - order: 14
+    field_key: f14_kpd_kombetar_skip_auto
+    screen_label: KPD Kombetar
+    constant: ""
+    value_type: skip
+    action: skip
+    after_action: none
+    required: false
+  - order: 15
+    field_key: f15_referenca_kuotes_skip
+    screen_label: Referenca kuotes #
+    constant: ""
+    value_type: skip
+    action: skip
+    after_action: none
+    required: false
+  - order: 16
+    field_key: f16_gross_weight
+    screen_label: Pesha Bruto (KG)
+    source: gross_weight
+    transform: numeric_clean
+    value_type: number
+    action: click_paste
+    x: 90
+    y: 764
+    after_action: none
+    required: true
+  - order: 17
+    field_key: f17_net_weight
+    screen_label: Pesha neto (KG)
+    source: net_weight
+    transform: numeric_clean
+    value_type: number
+    action: click_paste
+    x: 280
+    y: 764
+    after_action: none
+    required: true
+  - order: 18
+    field_key: f18_invoice_value
+    screen_label: Vlera fatures
+    source: invoice_value
+    transform: numeric_clean
+    value_type: number
+    action: click_paste
+    x: 430
+    y: 764
+    after_action: none
+    required: true
+    notes: Invoice value is stable at this coordinate. Do not Tab from here because Tab lands in document reference, not Monedha.
+  - order: 19
+    field_key: f19_safebrake_currency_skip
+    screen_label: Monedha / invoice currency code - SAFEBRAKE intentionally left blank
+    constant: ""
+    value_type: skip
+    action: skip
+    after_action: none
+    required: false
+    risk_level: safety_fuse
+    notes: v3.1 SafeBrake intentionally does not fill currency. Line Store should fail with currency required, preventing real line save while allowing fill and validation path testing.
+  - order: 20
+    field_key: f20_document_reference
+    screen_label: Numri & data e references se dokumentit
+    source: document_reference
+    value_type: text
+    action: click_paste
+    x: 130
+    y: 823
+    after_action: none
+    required: true
