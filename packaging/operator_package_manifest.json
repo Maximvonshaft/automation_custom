@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "package_name": "customsops-controlled-operator-package",
-  "milestone": "v4.2-milestone-1-packaging-boundary-audit",
+  "milestone": "v4.2-milestone-5-operator-ux-shell",
   "status": "boundary_manifest_only_not_a_release_package",
   "classification_rules": {
     "operator_local_candidate": [
@@ -13,6 +13,7 @@
       "agent/customsops_agent/evidence_v311_adapter.py",
       "agent/customsops_agent/machine_identity.py",
       "agent/customsops_agent/operator_flow.py",
+      "agent/customsops_agent/operator_cli.py",
       "agent/customsops_agent/executors/**",
       "shared/signing/ed25519.py",
       "shared/schemas/action.schema.json",
@@ -38,7 +39,8 @@
       "docs/v4.2_implementation_roadmap.md",
       "docs/v4.2_package_file_classification.md",
       "docs/v4.2_machine_registration.md",
-      "docs/v4.2_signed_job_only_operator_flow.md"
+      "docs/v4.2_signed_job_only_operator_flow.md",
+      "docs/v4.2_operator_ux_shell.md"
     ],
     "excluded": [
       ".git/**",
@@ -95,11 +97,20 @@
     "requires_trusted_public_key": true,
     "local_excel_to_executable_plan_compilation": false
   },
+  "operator_ux_shell": {
+    "status_command": true,
+    "manifest_superficial_precheck": true,
+    "run_signed_job_command": true,
+    "plan_editor": false,
+    "country_pack_viewer": false,
+    "local_excel_to_executable_plan_compilation": false
+  },
   "notes": [
     "This manifest is an audit boundary only and does not build an operator package.",
     "The eventual package builder must use a strict allowlist and prove that server_only and excluded patterns are absent from output artifacts.",
     "Machine registration files are local candidates only; production registration authority remains server-side.",
     "Operator flow files are local candidates only; signed-job issuance remains server-side.",
+    "Operator UX shell performs local precheck and signed-job invocation only; it does not parse Excel rows into executable steps.",
     "No source-tree distribution is approved by this manifest."
   ]
 }
