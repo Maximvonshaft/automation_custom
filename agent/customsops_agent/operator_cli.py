@@ -16,6 +16,7 @@ from agent.customsops_agent.machine_identity import (
     load_machine_registration,
 )
 from agent.customsops_agent.operator_flow import run_operator_signed_job
+from agent.customsops_agent.window_foreground import get_active_window_title
 
 SUPPORTED_MANIFEST_SUFFIXES = {".xlsx", ".xlsm"}
 FORBIDDEN_FINALIZATION_ACTIONS = ["submit", "register", "payment", "tax_finalize"]
@@ -303,6 +304,32 @@ def _open_evidence_location(path: Path) -> bool:
     return True
 
 
+def _active_window_title_snapshot() -> str | None:
+    try:
+        return get_active_window_title()
+    except Exception as exc:  # pragma: no cover - defensive diagnostics only
+        return f"<unavailable: {type(exc).__name__}: {exc}>"
+
+
+def _run_failure_payload(args: argparse.Namespace, exc: Exception) -> dict[str, Any]:
+    return {
+        "result": "failed",
+        "failed_stage": "run_signed_job",
+        "error_type": type(exc).__name__,
+        "error_message": str(exc),
+        "active_window_title": _active_window_title_snapshot() if args.real_gui else None,
+        "signed_job_plan": str(args.signed_job_plan),
+        "evidence_root": str(args.evidence_root),
+        "evidence_bundle": None,
+        "operator_boundary": operator_boundary(),
+        "suggested_action": (
+            "Confirm ASYCUDA is the foreground window and rerun the signed job."
+            if args.real_gui
+            else "Inspect signed job plan, machine registration, public key, and logs."
+        ),
+    }
+
+
 def _handle_status(args: argparse.Namespace) -> int:
     result = inspect_operator_status(
         machine_registration_path=args.machine_registration,
@@ -363,14 +390,19 @@ def _handle_run_signed_job(args: argparse.Namespace) -> int:
         )
         return 2
 
-    evidence_bundle = run_operator_signed_job(
-        signed_job_plan=args.signed_job_plan,
-        machine_registration_path=args.machine_registration,
-        public_key_path=args.public_key_pem,
-        evidence_root=args.evidence_root,
-        use_real_gui=args.real_gui,
-        foreground_window_title=args.foreground_window_title,
-    )
+    try:
+        evidence_bundle = run_operator_signed_job(
+            signed_job_plan=args.signed_job_plan,
+            machine_registration_path=args.machine_registration,
+            public_key_path=args.public_key_pem,
+            evidence_root=args.evidence_root,
+            use_real_gui=args.real_gui,
+            foreground_window_title=args.foreground_window_title,
+        )
+    except Exception as exc:
+        _emit_json(_run_failure_payload(args, exc), args.output_json)
+        return 1
+
     opened = _open_evidence_location(evidence_bundle) if args.open_evidence_folder else False
     _emit_json(
         {

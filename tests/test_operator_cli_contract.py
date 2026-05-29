@@ -144,3 +144,51 @@ def test_cli_status_returns_nonzero_when_not_ready(tmp_path: Path):
     assert exit_code == 2
     assert payload["status"]["ready_for_signed_job"] is False
     assert payload["operator_boundary"]["signed_job_only"] is True
+
+
+def test_cli_run_signed_job_writes_structured_failure_json(tmp_path: Path):
+    registration_path = tmp_path / "machine_registration.json"
+    public_key_path = tmp_path / "trusted_public_key.pem"
+    signed_job_plan = tmp_path / "unsigned_job_plan.json"
+    output_path = tmp_path / "run_result.json"
+    _write_registration(registration_path, "active")
+    public_key_path.write_text(PUBLIC_KEY_PLACEHOLDER, encoding="ascii")
+    signed_job_plan.write_text(
+        json.dumps(
+            {
+                "job_id": "job_failure_probe",
+                "tenant_id": "tenant_demo",
+                "machine_id": "machine_demo",
+                "mode": "fillOnly",
+                "expires_at": "2099-01-01T00:00:00Z",
+                "steps": [],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    exit_code = operator_cli.main(
+        [
+            "run-signed-job",
+            "--signed-job-plan",
+            str(signed_job_plan),
+            "--machine-registration",
+            str(registration_path),
+            "--public-key-pem",
+            str(public_key_path),
+            "--evidence-root",
+            str(tmp_path / "evidence"),
+            "--output-json",
+            str(output_path),
+        ]
+    )
+
+    payload = json.loads(output_path.read_text(encoding="utf-8"))
+    assert exit_code == 1
+    assert payload["result"] == "failed"
+    assert payload["failed_stage"] == "run_signed_job"
+    assert payload["error_type"] in {"TypeError", "ValueError"}
+    assert payload["error_message"]
+    assert payload["evidence_bundle"] is None
+    assert payload["suggested_action"]
+    assert payload["operator_boundary"]["signed_job_only"] is True
