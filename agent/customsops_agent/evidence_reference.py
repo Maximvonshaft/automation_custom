@@ -26,7 +26,9 @@ def _canonical_bytes(payload: dict[str, Any]) -> bytes:
     return json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
 
 
-def _load_manifest_from_bundle(evidence_bundle_path: Path) -> tuple[dict[str, Any], str, list[str]]:
+def _load_manifest_from_bundle(
+    evidence_bundle_path: Path,
+) -> tuple[dict[str, Any], str, list[str]]:
     if not evidence_bundle_path.is_file():
         raise ValueError(f"Evidence bundle does not exist: {evidence_bundle_path}")
 
@@ -166,5 +168,6 @@ def write_evidence_reference(
     )
     output = output_path.expanduser()
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(reference, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    payload = json.dumps(reference, indent=2, sort_keys=True) + "\n"
+    output.write_text(payload, encoding="utf-8")
     return output
