@@ -8,7 +8,9 @@ param(
     [string]$PublicKeyPem,
     [string]$EvidenceRoot = ".\evidence\operator",
     [string]$ForegroundWindowTitle = "",
-    [switch]$RealGui
+    [switch]$RealGui,
+    [switch]$OpenEvidenceFolder,
+    [string]$OutputJson = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -30,7 +32,8 @@ if (Test-Path $manifest) {
 
 $argsList = @(
     "-m",
-    "agent.customsops_agent.operator_flow",
+    "agent.customsops_agent.operator_cli",
+    "run-signed-job",
     "--signed-job-plan",
     $SignedJobPlan,
     "--machine-registration",
@@ -48,6 +51,15 @@ if ($RealGui) {
 if ($ForegroundWindowTitle) {
     $argsList += "--foreground-window-title"
     $argsList += $ForegroundWindowTitle
+}
+
+if ($OpenEvidenceFolder) {
+    $argsList += "--open-evidence-folder"
+}
+
+if ($OutputJson) {
+    $argsList += "--output-json"
+    $argsList += $OutputJson
 }
 
 python @argsList
