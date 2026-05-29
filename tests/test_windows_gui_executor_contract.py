@@ -6,6 +6,7 @@ import pytest
 
 from agent.customsops_agent.action_executor import choose_executor
 from agent.customsops_agent.executors.windows_gui import WindowsGuiExecutor
+from agent.customsops_agent.window_foreground import assert_asycuda_foreground_window
 
 
 class FakeGuiBackend:
@@ -47,12 +48,29 @@ def test_real_gui_executor_requires_foreground_window_title():
         choose_executor(use_real_gui=True)
 
 
+def test_asycuda_foreground_window_requires_active_window_match():
+    assert (
+        assert_asycuda_foreground_window(
+            "ASYCUDAWorld",
+            active_window_title_provider=lambda: "ASYCUDAWorld - Declaration",
+        )
+        == "ASYCUDAWorld - Declaration"
+    )
+
+    with pytest.raises(ValueError, match="active window title"):
+        assert_asycuda_foreground_window(
+            "ASYCUDAWorld",
+            active_window_title_provider=lambda: "Windows PowerShell",
+        )
+
+
 def test_windows_gui_executor_invokes_backend_for_supported_actions(tmp_path):
     backend = FakeGuiBackend(tmp_path)
     executor = WindowsGuiExecutor(
         foreground_window_title="ASYCUDA World",
         backend=backend,
         platform_name="Windows",
+        active_window_title_provider=lambda: "ASYCUDA World - test",
     )
     screenshot_path = tmp_path / "screenshots" / "shot.png"
     ledger = executor.execute(
@@ -83,3 +101,25 @@ def test_windows_gui_executor_invokes_backend_for_supported_actions(tmp_path):
         "screenshot",
     ]
     assert [entry["status"] for entry in ledger] == ["executed"] * 5
+
+
+def test_windows_gui_executor_stops_if_focus_moves_away_after_first_step(tmp_path):
+    backend = FakeGuiBackend(tmp_path)
+    active_titles = iter(["ASYCUDA World", "ASYCUDA World", "Windows PowerShell"])
+    executor = WindowsGuiExecutor(
+        foreground_window_title="ASYCUDA World",
+        backend=backend,
+        platform_name="Windows",
+        active_window_title_provider=lambda: next(active_titles),
+    )
+
+    with pytest.raises(ValueError, match="active window title"):
+        executor.execute(
+            [
+                {"step": 1, "action": "wait", "duration_seconds": 0, "label": "wait"},
+                {"step": 2, "action": "paste", "value": "SHOULD_NOT_PASTE"},
+            ]
+        )
+
+    assert backend.calls == []
+    assert [entry["action"] for entry in executor.ledger] == ["wait"]
