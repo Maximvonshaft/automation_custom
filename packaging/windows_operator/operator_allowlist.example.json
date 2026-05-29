@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "operators": [
+    {
+      "operator_id": "operator_demo_001",
+      "display_name": "Demo Operator",
+      "role": "internal_pilot_operator",
+      "tenant_id": "tenant_demo",
+      "approved": false,
+      "notes": "Example only. Replace before any controlled pilot."
+    }
+  ]
+}

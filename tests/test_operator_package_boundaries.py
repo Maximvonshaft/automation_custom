@@ -15,7 +15,7 @@ def test_operator_package_manifest_exists_and_is_not_release_package():
 
     assert manifest["package_name"] == "customsops-controlled-operator-package"
     assert manifest["status"] == "boundary_manifest_only_not_a_release_package"
-    assert manifest["milestone"] == "v4.2-milestone-6-evidence-reference-model"
+    assert manifest["milestone"] == "v4.2-milestone-7-controlled-pilot-gate"
 
 
 def test_operator_package_manifest_keeps_country_pack_server_only():
@@ -45,6 +45,19 @@ def test_operator_package_manifest_classifies_evidence_reference_model():
     assert "agent/customsops_agent/evidence_reference.py" in candidates
     assert "shared/schemas/evidence_reference.schema.json" in candidates
     assert "docs/v4.2_evidence_reference_model.md" in docs
+
+
+def test_operator_package_manifest_classifies_controlled_pilot_gate():
+    candidates = set(_manifest()["classification_rules"]["operator_local_candidate"])
+    docs = set(_manifest()["classification_rules"]["docs_only_internal"])
+
+    assert "shared/schemas/pilot_gate_record.schema.json" in candidates
+    assert "packaging/windows_operator/pilot_gate_record.ps1" in candidates
+    assert "packaging/windows_operator/operator_allowlist.example.json" in candidates
+    assert "packaging/windows_operator/machine_allowlist.example.json" in candidates
+    assert "docs/v4.2_controlled_pilot_gate.md" in docs
+    assert "docs/v4.2_operator_package_note_template.md" in docs
+    assert "docs/v4.2_pilot_rollback_disable.md" in docs
 
 
 def test_operator_package_manifest_excludes_sensitive_artifact_patterns():
@@ -107,3 +120,14 @@ def test_evidence_reference_model_declares_reference_only_policy():
     assert evidence_reference["screenshot_content_included"] is False
     assert evidence_reference["support_diagnostics_content_included"] is False
     assert evidence_reference["requires_hq_review"] is True
+
+
+def test_controlled_pilot_gate_declares_record_only_policy():
+    gate = _manifest()["controlled_pilot_gate"]
+
+    assert gate["gate_record_only"] is True
+    assert gate["requires_operator_allowlist"] is True
+    assert gate["requires_machine_allowlist"] is True
+    assert gate["requires_build_manifest"] is True
+    assert gate["requires_checksum_file"] is True
+    assert gate["external_distribution_approved"] is False
