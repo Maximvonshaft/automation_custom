@@ -212,7 +212,8 @@ def precheck_manifest(manifest_path: Path) -> ManifestPrecheckResult:
         decision="accept",
         reason="Local superficial precheck passed. HQ Control Plane must parse and compile.",
         warnings=(
-            "Local precheck does not parse rows, resolve country packs, or compile executable GUI steps.",
+            "Local precheck does not parse rows, resolve country packs, "
+            "or compile executable GUI steps.",
         ),
     )
 
@@ -240,7 +241,9 @@ def inspect_operator_status(
         "This shell has no plan editor, country pack viewer, or local Excel compiler.",
     ]
 
-    registration_path_label = str(machine_registration_path) if machine_registration_path else "<default>"
+    registration_path_label = (
+        str(machine_registration_path) if machine_registration_path else "<default>"
+    )
     machine_registration_loaded = False
     machine_registration_active = False
     tenant_id: str | None = None
@@ -254,7 +257,8 @@ def inspect_operator_status(
         assert_machine_registration_active(registration)
         machine_registration_active = True
     except FileNotFoundError as exc:
-        errors.append(f"Machine registration file not found: {exc.filename or registration_path_label}")
+        missing_file = exc.filename or registration_path_label
+        errors.append(f"Machine registration file not found: {missing_file}")
     except ValueError as exc:
         errors.append(f"Machine registration rejected: {exc}")
     except OSError as exc:
