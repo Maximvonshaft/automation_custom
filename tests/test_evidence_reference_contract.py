@@ -7,8 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from agent.customsops_agent import evidence_reference
-from agent.customsops_agent.operator_cli import main as operator_cli_main
+from agent.customsops_agent import evidence_reference, operator_cli
 
 
 SCREENSHOT_CONTENT = "customer-visible screenshot placeholder"
@@ -130,7 +129,7 @@ def test_operator_cli_reference_evidence_command(tmp_path: Path):
     output = tmp_path / "evidence_reference.json"
     _write_evidence_bundle(bundle)
 
-    exit_code = operator_cli_main(
+    exit_code = operator_cli.main(
         [
             "reference-evidence",
             "--evidence-bundle",
