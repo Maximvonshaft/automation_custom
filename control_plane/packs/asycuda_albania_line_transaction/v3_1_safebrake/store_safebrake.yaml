@@ -1,0 +1,15 @@
+pack_id: asycuda_albania_line_transaction
+pack_version: v3.1.1-safebrake-geometry-fix
+store_action: store_line_safebrake
+screen: Line Transaction child window
+x: 62
+y: 151
+wait_after_seconds: 3.5
+activation_method: win32gui.ShowWindow(SW_MAXIMIZE)+SetForegroundWindow
+source_tool: tools/line_store_after_fill_v311.py
+source_script: ONE_CLICK_FILL20_SAFEBRAKE_STORE_V31.ps1
+safe_brake:
+  currency_intentionally_blank: true
+  expected_result: Store validation error for missing invoice currency / Monedha
+  forbidden: No declaration Submit/Register/Payment action.
+geometry_note: v3.1.1 avoids SW_RESTORE because it can shrink/restore the Java MDI window and invalidate the calibrated Store icon coordinate.
