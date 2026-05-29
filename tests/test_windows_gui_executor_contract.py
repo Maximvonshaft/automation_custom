@@ -57,10 +57,16 @@ def test_windows_gui_executor_invokes_backend_for_supported_actions(tmp_path):
     screenshot_path = tmp_path / "screenshots" / "shot.png"
     ledger = executor.execute(
         [
-            {"step": 1, "action": "click", "x": 10, "y": 20, "label": "click"},
-            {"step": 2, "action": "paste", "value": "SANITIZED", "label": "paste"},
-            {"step": 3, "action": "hotkey", "keys": ["ctrl", "s"], "label": "hotkey"},
-            {"step": 4, "action": "screenshot", "path": str(screenshot_path), "label": "shot"},
+            {
+                "step": 1,
+                "action": "wait",
+                "duration_seconds": 0,
+                "label": "wait",
+            },
+            {"step": 2, "action": "click", "x": 10, "y": 20, "label": "click"},
+            {"step": 3, "action": "paste", "value": "SANITIZED", "label": "paste"},
+            {"step": 4, "action": "hotkey", "keys": ["ctrl", "s"], "label": "hotkey"},
+            {"step": 5, "action": "screenshot", "path": str(screenshot_path), "label": "shot"},
         ]
     )
     assert backend.calls == [
@@ -69,4 +75,11 @@ def test_windows_gui_executor_invokes_backend_for_supported_actions(tmp_path):
         ("hotkey", ["ctrl", "s"]),
         ("screenshot", screenshot_path),
     ]
-    assert [entry["status"] for entry in ledger] == ["executed"] * 4
+    assert [entry["action"] for entry in ledger] == [
+        "wait",
+        "click",
+        "paste",
+        "hotkey",
+        "screenshot",
+    ]
+    assert [entry["status"] for entry in ledger] == ["executed"] * 5
