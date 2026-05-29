@@ -15,7 +15,7 @@ def test_operator_package_manifest_exists_and_is_not_release_package():
 
     assert manifest["package_name"] == "customsops-controlled-operator-package"
     assert manifest["status"] == "boundary_manifest_only_not_a_release_package"
-    assert manifest["milestone"] == "v4.2-milestone-1-packaging-boundary-audit"
+    assert manifest["milestone"] == "v4.2-milestone-5-operator-ux-shell"
 
 
 def test_operator_package_manifest_keeps_country_pack_server_only():
@@ -28,6 +28,14 @@ def test_operator_package_manifest_keeps_country_pack_server_only():
     assert "control_plane/packs/**" in server_only
     assert not any(path.startswith("control_plane/") for path in candidates)
     assert not any("packs" in path.lower() for path in candidates)
+
+
+def test_operator_package_manifest_classifies_operator_cli_as_local_candidate():
+    candidates = set(_manifest()["classification_rules"]["operator_local_candidate"])
+    docs = set(_manifest()["classification_rules"]["docs_only_internal"])
+
+    assert "agent/customsops_agent/operator_cli.py" in candidates
+    assert "docs/v4.2_operator_ux_shell.md" in docs
 
 
 def test_operator_package_manifest_excludes_sensitive_artifact_patterns():
@@ -69,3 +77,14 @@ def test_operator_package_manifest_marks_server_compilers_forbidden():
     assert "safebrake_policy.example.yaml" in forbidden
     assert "signing private key" in forbidden
     assert "production credentials" in forbidden
+
+
+def test_operator_ux_shell_declares_no_local_compiler_or_sensitive_views():
+    ux = _manifest()["operator_ux_shell"]
+
+    assert ux["status_command"] is True
+    assert ux["manifest_superficial_precheck"] is True
+    assert ux["run_signed_job_command"] is True
+    assert ux["plan_editor"] is False
+    assert ux["country_pack_viewer"] is False
+    assert ux["local_excel_to_executable_plan_compilation"] is False

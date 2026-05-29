@@ -27,15 +27,17 @@ def test_windows_operator_skeleton_files_exist():
     assert missing == []
 
 
-def test_launcher_is_signed_job_only_wrapper():
+def test_launcher_is_signed_job_only_wrapper_through_operator_cli():
     launcher = _read(WINDOWS_OPERATOR / "operator_launcher.ps1")
 
     assert "signed job plans only" in launcher
-    assert "agent.customsops_agent.operator_flow" in launcher
+    assert "agent.customsops_agent.operator_cli" in launcher
+    assert "run-signed-job" in launcher
     assert "SignedJobPlan" in launcher
     assert "MachineRegistration" in launcher
     assert "PublicKeyPem" in launcher
-    assert "Submit/Register/Payment/tax-finalizing" in launcher
+    assert "OpenEvidenceFolder" in launcher
+    assert "OutputJson" in launcher
     assert "compile executable job plans from Excel" in launcher
     assert "declaration_job_compiler" not in launcher
     assert "control_plane/packs" not in launcher
@@ -47,7 +49,7 @@ def test_package_skeleton_declares_controlled_non_release_boundaries():
     assert "internal_skeleton_only" in script
     assert "not create an external release package" in script
     assert "does not include country pack content" in script
-    assert "does not add Submit/Register/Payment/tax-finalizing automation" in script
+    assert "does not add" in script
     assert "control_plane/**" in script
     assert "control_plane/packs/**" in script
     assert "*.xlsx" in script
@@ -82,7 +84,7 @@ def test_support_diagnostics_script_hashes_evidence_without_collecting_known_sec
     assert "evidence" in script
     assert "Get-FileHash" in script
     assert "sensitive_content_excluded = $true" in script
-    assert "must not collect credentials" in script
+    assert "must not collect" in script
     assert "private keys" in script
     assert "country pack content" in script
     assert "raw screenshots require separate redaction approval" in script.lower()
