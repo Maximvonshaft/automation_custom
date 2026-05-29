@@ -3,9 +3,8 @@
 ## Current Status
 
 - `v4.1` is an internal Release Candidate after local quality gates and Windows ASYCUDA Lab Smoke evidence under SafeBrake.
-- `v4.2` is the active controlled-operator-package hardening track.
-- Merged v4.2 milestones currently cover packaging boundaries, Windows operator package skeleton, machine registration/binding, signed-job-only operator flow, Operator UX shell, and evidence reference metadata.
-- This branch adds Milestone 7: controlled pilot gate records, allowlists, package note template, and rollback/disable runbook.
+- `v4.2` milestone implementation is complete through the controlled pilot gate.
+- Merged v4.2 milestones cover packaging boundaries, Windows operator package skeleton, machine registration/binding, signed-job-only operator flow, Operator UX shell, evidence reference metadata, and controlled pilot gate records.
 - External operator package distribution is still not approved.
 - Do not distribute this repository as an external operator package.
 
@@ -63,7 +62,7 @@ Evidence established in a real ASYCUDA environment:
 
 Current target: convert the internal release candidate into a controlled operator package model where operators can run supervised ASYCUDA foreground automation without receiving the source tree, country packs, coordinates, business mapping, or SafeBrake policy internals.
 
-Merged or active milestones:
+Merged milestones:
 
 1. Packaging boundary audit.
 2. Windows operator package skeleton.
@@ -73,9 +72,9 @@ Merged or active milestones:
 6. Evidence reference model for hash-only HQ review metadata.
 7. Controlled pilot gate for allowlists, checksum review, approval placeholders, and rollback/disable controls.
 
-Pending milestones:
+Remaining approval outside implementation:
 
-1. Separate external rollout approval.
+1. Separate external rollout approval, if ever needed.
 
 ## Operator shell commands
 
