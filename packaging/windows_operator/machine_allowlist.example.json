@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "machines": [
+    {
+      "tenant_id": "tenant_demo",
+      "machine_id": "machine_demo",
+      "machine_fingerprint_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "operator_id": "operator_demo_001",
+      "approved": false,
+      "notes": "Example only. Replace before any controlled pilot."
+    }
+  ]
+}
