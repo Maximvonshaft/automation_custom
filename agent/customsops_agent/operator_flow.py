@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import os
 from pathlib import Path
-from typing import Sequence
+from collections.abc import Sequence
 
 from agent.customsops_agent.config import AgentConfig
 from agent.customsops_agent.machine_identity import (
@@ -34,9 +34,10 @@ def run_operator_signed_job(
 ) -> Path:
     """Run a signed HQ job through the local operator boundary.
 
-    This function intentionally does not parse Excel, compile executable steps, or access country packs.
-    It loads a local machine registration file, requires the registration to be active, and then delegates
-    to the existing signed-plan validation and execution boundary.
+    This function intentionally does not parse Excel, compile executable steps, or access
+    country packs. It loads a local machine registration file, requires the registration to
+    be active, and then delegates to the existing signed-plan validation and execution
+    boundary.
     """
 
     registration = load_machine_registration(machine_registration_path)
@@ -59,7 +60,9 @@ def run_operator_signed_job(
 
 
 def _parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Run a CustomsOps signed job through operator flow")
+    parser = argparse.ArgumentParser(
+        description="Run a CustomsOps signed job through operator flow"
+    )
     parser.add_argument("--signed-job-plan", required=True, type=Path)
     parser.add_argument("--machine-registration", type=Path)
     parser.add_argument("--public-key-pem", type=Path)
