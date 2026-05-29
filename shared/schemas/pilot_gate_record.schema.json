@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CustomsOps Controlled Pilot Gate Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gate_type",
+    "candidate_version",
+    "source_repo",
+    "source_commit",
+    "created_at_utc",
+    "created_by_host",
+    "candidate_package_root",
+    "build_manifest_path",
+    "checksum_file",
+    "operator_allowlist_file",
+    "machine_allowlist_file",
+    "approvals",
+    "boundary",
+    "qa_evidence",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "gate_type": {"type": "string", "const": "controlled_pilot_gate_record"},
+    "candidate_version": {"type": "string", "minLength": 1},
+    "source_repo": {"type": "string", "minLength": 1},
+    "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "created_at_utc": {"type": "string", "minLength": 1},
+    "created_by_host": {"type": "string", "minLength": 1},
+    "candidate_package_root": {"type": "string", "minLength": 1},
+    "build_manifest_path": {"type": "string", "minLength": 1},
+    "checksum_file": {"type": "string", "minLength": 1},
+    "operator_allowlist_file": {"type": "string", "minLength": 1},
+    "machine_allowlist_file": {"type": "string", "minLength": 1},
+    "approvals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "business_owner",
+        "compliance_owner",
+        "support_owner",
+        "technical_owner"
+      ],
+      "properties": {
+        "business_owner": {"type": "string"},
+        "compliance_owner": {"type": "string"},
+        "support_owner": {"type": "string"},
+        "technical_owner": {"type": "string"}
+      }
+    },
+    "boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_tree_distributed",
+        "country_pack_included",
+        "local_compilation_enabled",
+        "external_distribution_approved",
+        "raw_sensitive_evidence_included"
+      ],
+      "properties": {
+        "source_tree_distributed": {"type": "boolean", "const": false},
+        "country_pack_included": {"type": "boolean", "const": false},
+        "local_compilation_enabled": {"type": "boolean", "const": false},
+        "external_distribution_approved": {"type": "boolean", "const": false},
+        "raw_sensitive_evidence_included": {"type": "boolean", "const": false}
+      }
+    },
+    "qa_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_quality_gate_passed",
+        "remote_quality_gate_passed",
+        "windows_lab_smoke_reference",
+        "evidence_reference_file"
+      ],
+      "properties": {
+        "local_quality_gate_passed": {"type": "boolean"},
+        "remote_quality_gate_passed": {"type": "boolean"},
+        "windows_lab_smoke_reference": {"type": ["string", "null"]},
+        "evidence_reference_file": {"type": ["string", "null"]}
+      }
+    },
+    "notes": {"type": "array", "items": {"type": "string"}}
+  }
+}
