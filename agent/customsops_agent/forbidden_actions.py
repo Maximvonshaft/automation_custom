@@ -16,6 +16,8 @@ ALLOWED_ACTIONS = {
     "wait",
     "screenshot",
     "store_line_safebrake",
+    "clear_paste",
+    "click_clear_paste",
 }
 
 

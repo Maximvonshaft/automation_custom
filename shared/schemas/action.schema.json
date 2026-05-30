@@ -20,6 +20,8 @@
         "click",
         "paste",
         "click_paste",
+        "click_clear_paste",
+        "clear_paste",
         "hotkey",
         "wait",
         "screenshot",
