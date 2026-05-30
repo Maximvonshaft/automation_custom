@@ -54,10 +54,14 @@ def _resolve_value(field: dict[str, Any], declaration: dict[str, Any]) -> str:
 
 
 def _normalized_action(action: str) -> str:
+    if action in {"click_clear_paste", "click_clear_paste_code"}:
+        return "click_clear_paste"
+    if action in {"clear_paste", "clear_paste_code"}:
+        return "clear_paste"
     if action in {"click_paste_code", "click_paste"}:
-        return "click_paste"
+        return "click_clear_paste"
     if action in {"paste_code", "paste"}:
-        return "paste"
+        return "clear_paste"
     return action
 
 
@@ -83,20 +87,20 @@ def compile_steps_from_declaration(
         if field.get("required") and value == "":
             raise ValueError(f"Required field is empty: {field['field_key']}")
 
-        if action == "click_paste":
+        if action in {"click_paste", "click_clear_paste"}:
             step = {
                 "step": step_number,
-                "action": "click_paste",
+                "action": action,
                 "field_key": field["field_key"],
                 "x": int(field["x"]),
                 "y": int(field["y"]),
                 "value": value,
                 "label": field.get("screen_label", field["field_key"]),
             }
-        elif action == "paste":
+        elif action in {"paste", "clear_paste"}:
             step = {
                 "step": step_number,
-                "action": "paste",
+                "action": action,
                 "field_key": field["field_key"],
                 "value": value,
                 "label": field.get("screen_label", field["field_key"]),

@@ -13,3 +13,4 @@ local_state/
 outputs/
 qa_runs/
 *.pem
+lab/

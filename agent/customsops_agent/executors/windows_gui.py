@@ -110,6 +110,17 @@ class WindowsGuiExecutor:
         self.backend.paste(str(step.get("value", "")))
         self._record(step)
 
+    def execute_clear_paste(self, step: dict) -> None:
+        self.backend.hotkey(["ctrl", "a"])
+        self.backend.paste(str(step.get("value", "")))
+        self._record(step)
+
+    def execute_click_clear_paste(self, step: dict) -> None:
+        self.backend.click(int(step["x"]), int(step["y"]))
+        self.backend.hotkey(["ctrl", "a"])
+        self.backend.paste(str(step.get("value", "")))
+        self._record(step)
+
     def execute_hotkey(self, step: dict) -> None:
         self.backend.hotkey([str(key) for key in step.get("keys", [])])
         self._record(step)

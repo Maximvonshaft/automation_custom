@@ -31,8 +31,8 @@ def test_v311_coordinate_pack_contains_expected_fields_and_safebrake():
     assert field_map["pack_version"] == "v3.1.1-safebrake-geometry-fix"
     assert len(fields) == 20
     assert fields[0]["field_key"] == "f01_zyrat_doganore_code"
-    assert fields[0]["x"] == 90
-    assert fields[0]["y"] == 383
+    assert fields[0]["x"] == 88
+    assert fields[0]["y"] == 384
 
     currency = next(
         field for field in fields if field["field_key"] == "f19_safebrake_currency_skip"
@@ -73,22 +73,26 @@ def test_v311_compiler_omits_currency_and_forbidden_actions():
     assert actions[-1] == "screenshot"
 
     first = steps[0]
-    assert first["action"] == "click_paste"
+    assert first["action"] == "click_clear_paste"
     assert first["field_key"] == "f01_zyrat_doganore_code"
-    assert first["x"] == 90
-    assert first["y"] == 383
+    assert first["x"] == 88
+    assert first["y"] == 384
 
-    tariff2 = next(step for step in steps if step.get("field_key") == "f08_customs_tariff_2")
-    tariff2_index = steps.index(tariff2)
-    assert steps[tariff2_index + 1]["action"] == "hotkey"
-    assert steps[tariff2_index + 1]["keys"] == ["tab"]
+    tariff2 = next(
+        step for step in steps if step.get("field_key") == "f08_customs_tariff_2"
+    )
+    assert tariff2["action"] == "click_clear_paste"
+    assert tariff2["x"] == 169
+    assert tariff2["y"] == 564
 
     statistical = next(
-        step for step in steps if step.get("field_key") == "f09_statistical_quantity_keyboard"
+        step
+        for step in steps
+        if step.get("field_key") == "f09_statistical_quantity_keyboard"
     )
-    assert statistical["action"] == "paste"
-    assert "x" not in statistical
-    assert "y" not in statistical
+    assert statistical["action"] == "click_clear_paste"
+    assert statistical["x"] == 388
+    assert statistical["y"] == 561
 
 
 def test_v311_compiler_can_append_safebrake_store_action():
