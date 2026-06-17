@@ -1,0 +1,20 @@
+{
+  "source_file_hash": "sha256:example",
+  "template_contract_version": "albania_manifest_v1",
+  "declarations": [
+    {
+      "awb": "AL000000001R",
+      "hs_code": "61091000",
+      "quantity": 3,
+      "gross_weight_kg": 1.31,
+      "net_weight_kg": 1.31,
+      "invoice_value": 121.78,
+      "currency": "USD",
+      "origin_country": "CN",
+      "recipient_name": "SANITIZED RECIPIENT",
+      "recipient_address": "SANITIZED CITY",
+      "goods_description": "T SHIRT 3PC",
+      "customs_description": "T SHIRT 3PC"
+    }
+  ]
+}

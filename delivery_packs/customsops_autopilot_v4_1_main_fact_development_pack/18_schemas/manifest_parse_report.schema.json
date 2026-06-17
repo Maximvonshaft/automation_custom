@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Manifest Parse Report",
+  "type": "object",
+  "required": [
+    "source_file_hash",
+    "template_status",
+    "sheets"
+  ],
+  "properties": {
+    "source_file_hash": {
+      "type": "string"
+    },
+    "template_status": {
+      "enum": [
+        "accepted",
+        "rejected",
+        "accepted_with_warnings"
+      ]
+    },
+    "sheets": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

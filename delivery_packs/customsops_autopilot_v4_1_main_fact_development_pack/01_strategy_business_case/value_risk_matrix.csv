@@ -1,0 +1,5 @@
+Value,Risk,Mitigation,Owner
+Protect country-pack IP,Local reverse engineering,Do not ship packs to agent; signed job plans only,CTO
+Enable simple operator UX,Template mismatch,Template classifier and parse report,Product
+Avoid formal customs/tax consequences,Unsafe Store/Submit,SafeBrake default and forbidden actions,Engineering
+Create auditable operation trail,Missing evidence,Watermark + hash + review bundle,Engineering
